@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<order>
+	<order_header>
+		<ordering_system>1</ordering_system>
+		<order_type />
+		<reference_number />
+		<distributor_id />
+		<distributor_contact />
+		<optional_delivery_email />
+		<user_id />
+		<permit_media />
+		<permit_all />
+		<language_code>en</language_code>
+	</order_header>
+	<cell>
+		<cell_name>GB30364</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+	<cell>
+		<cell_name>GB301364</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+	<cell>
+		<cell_name>GB301365</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+	<cell>
+		<cell_name>GB104209</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+	<cell>
+		<cell_name>FR373840</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+	<cell>
+		<cell_name>FR271860</cell_name>
+		<cell_edtn />
+		<service_type>0</service_type>
+	</cell>
+</order>

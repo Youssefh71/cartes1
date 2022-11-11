@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="order" type="orderType"/>
+  <xs:complexType name="order_headerType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="ordering_system"/>
+      <xs:element type="xs:string" name="order_type"/>
+      <xs:element type="xs:string" name="reference_number"/>
+      <xs:element type="xs:string" name="distributor_id"/>
+      <xs:element type="xs:string" name="distributor_contact"/>
+      <xs:element type="xs:string" name="optional_delivery_email"/>
+      <xs:element type="xs:string" name="user_id"/>
+      <xs:element type="xs:string" name="permit_media"/>
+      <xs:element type="xs:string" name="permit_all"/>
+      <xs:element type="xs:string" name="language_code"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cellType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="cell_name"/>
+      <xs:element type="xs:string" name="cell_edtn"/>
+      <xs:element type="xs:string" name="service_type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="orderType">
+    <xs:sequence>
+      <xs:element type="order_headerType" name="order_header"/>
+      <xs:element type="cellType" name="cell" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
