@@ -49,8 +49,12 @@ public class BasketControler {
      */
     private void showDiffs(BasketComparison diffs) {
         System.out.println("-- Diffs --");
-        System.out.println("Nb different cells: "+diffs.getCellsWithDifferences().size());
-        // TODO Youssef à compléter        
+        if (null == diffs) {
+            System.out.println("No difference found.");
+        } else {
+            System.out.println("Nb different cells: "+diffs.getCellsWithDifferences().size());
+            // TODO Youssef à compléter        
+        }
     }
 
     /**
