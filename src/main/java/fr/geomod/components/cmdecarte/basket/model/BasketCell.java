@@ -1,5 +1,5 @@
 /*
- * @(#)Cell.java
+ * @(#)BasketCell.java
  *
  * Copyright (c) 2022 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.

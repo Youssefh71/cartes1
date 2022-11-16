@@ -16,53 +16,61 @@ package fr.geomod.components.cmdecarte.basket.model.impl;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
 
 /**
- * <p><B>Title </B>: BasketCellImpl.</p>
- * <p><B>Copyright </B>: Copyright (c) 2022. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: BasketCellImpl.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: BasketCellImpl.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2022.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: BasketCellImpl.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2022
  */
 public class BasketCellImpl implements BasketCell {
-    /** Cell Id */
-    private String id;
-    
-    /** Cell edition */
-    private int edtn;
-    
-    /** Cell service */
-    private int service;
-    
-    /**
-     * BasketCell constructor
-     * @param identifier the cell id
-     * @param edition the cell edition
-     * @param service the cell service
-     */
-    public BasketCellImpl(String identifier, int edition, int service) {
-        this.id = identifier;
-        this.edtn = edition;
-        this.service = service;
-    }
+	/** Cell Id */
+	private String id;
 
-    @Override
-    public String getCellId() {
-        return this.id;
-    }
+	/** Cell edition */
+	private int edtn = -1;
 
-    @Override
-    public int getCellEdtn() {
-        // TODO Youssef
-        return -1;
-    }
+	/** Cell service */
+	private int service = -1;
 
-    @Override
-    public int getCellService() {
-        // TODO Youssef
-        return 0;
-    }
+	/**
+	 * BasketCell constructor
+	 * 
+	 * @param identifier the cell id
+	 * @param edition    the cell edition
+	 * @param service    the cell service
+	 */
+	public BasketCellImpl(String identifier, int edition, int service) {
+		this.id = identifier;
+		this.edtn = edition;
+		this.service = service;
+	}
+
+	/**
+	 *
+	 */
+	public String getCellId() {
+		return this.id;
+	}
+
+	public int getCellEdtn() {
+		return this.edtn;
+	}
+
+	public int getCellService() {
+		return this.service;
+	}
 
 }
-
-

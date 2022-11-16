@@ -22,6 +22,7 @@ import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.platform.commons.annotation.Testable;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
@@ -36,7 +37,8 @@ import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
  * @author GEOMOD
  * @since 2022
  */
-public class BasketTest {
+@Testable
+public class BasketTests {
     private static final String BASKET_DIR = "./data";
     private static final String BASKET1 = BASKET_DIR + "basket1.xml";
     private static final String BASKET1_PLUS_1_CELL = BASKET_DIR + "/basket1_withGB301366.xml";
@@ -123,6 +125,7 @@ public class BasketTest {
      * Check the save of a basket
      * @throws Exception
      */
+    @Test
     public void testBasketSaveToFile() throws Exception {
         // TODO Youssef : lire un panier, le sauvegarder sous un fichier different, verifier que le fichier n'est pas vide, charger un nouveau panier a partir de ce fichier, verifier qu'on a le meme nb de cellules et les memes cellules (sans utiliser le compare)
         
