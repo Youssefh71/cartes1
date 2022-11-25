@@ -14,12 +14,8 @@
 package fr.geomod.components.cmdecarte.basket.model;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 /**
  * <p><B>Title </B>: Basket.</p>
@@ -34,11 +30,8 @@ public interface Basket {
     /**
      * Load a fr.geomod.components.cmdecarte.basket from a xml file.
      * @param basketFile a fr.geomod.components.cmdecarte.basket xml file.
-     * @throws ParserConfigurationException 
-     * @throws IOException 
-     * @throws SAXException 
      */
-    public void loadBasket(File basketFile) /*throws ParserConfigurationException, SAXException, IOException */;
+    public void loadBasket(File basketFile);
     
     /**
      * Save a fr.geomod.components.cmdecarte.basket to a xml file.

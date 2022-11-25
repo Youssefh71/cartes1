@@ -14,7 +14,9 @@
 package fr.geomod.components.cmdecarte.basket;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -26,24 +28,42 @@ import org.junit.platform.commons.annotation.Testable;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
+import fr.geomod.components.cmdecarte.basket.model.impl.BasketCellImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
 
 /**
- * <p><B>Title </B>: BasketTest.</p>
- * <p><B>Copyright </B>: Copyright (c) 2022. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: BasketTest.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: BasketTest.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2022.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: BasketTest.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2022
  */
 @Testable
 public class BasketTests {
     private static final String BASKET_DIR = "./data";
-    private static final String BASKET1 = BASKET_DIR + "basket1.xml";
-    private static final String BASKET1_PLUS_1_CELL = BASKET_DIR + "/basket1_withGB301366.xml";
-    private static final String BASKET1_MINUS_1_CELL = BASKET_DIR + "/basket1_withoutGB303648.xml";
-    private static final String BASKET1_WITH_DIFFS = BASKET_DIR + "/basket1_GB104209_edt2.xml";
+    private static final String BASKET_DIR_OUTPUT = "./data_generated";
+    private static final String BASKET1 = BASKET_DIR + "/basket1.xml";
+    private static final String BASKET2 = BASKET_DIR_OUTPUT + "/basket3.xml";
+    private static final String BASKET3 = BASKET_DIR_OUTPUT + "/basket4.xml";
+    private static final String BASKET1_PLUS_1_CELL = BASKET_DIR
+            + "/basket1_withGB301366.xml";
+    private static final String BASKET1_MINUS_1_CELL = BASKET_DIR
+            + "/basket1_withoutGB303648.xml";
+    private static final String BASKET1_WITH_DIFFS = BASKET_DIR
+            + "/basket1_GB104209_edt2.xml";
     /** instance to test */
     Basket basket;
 
@@ -71,8 +91,9 @@ public class BasketTests {
     public void testBasketGetCells() throws Exception {
         File basket1File = new File(BASKET1);
         this.basket.loadBasket(basket1File);
-        
-        final String[] cellIds = {"GB303648", "GB301364", "GB301365", "GB104209", "FR373840", "FR271860"};
+
+        final String[] cellIds = { "GB303648", "GB301364", "GB301365",
+                "GB104209", "FR373840", "FR271860" };
 
         assertEquals(6, this.basket.getCells().size());
 
@@ -86,25 +107,28 @@ public class BasketTests {
                     break;
                 }
             }
-            
+
             if (!found) {
-                fail("Expected cell "+cellId+" was not found in basket list of cells.");
+                fail("Expected cell " + cellId
+                        + " was not found in basket list of cells.");
             }
         }
-        
+
         // check that no other cell is found
         for (BasketCell cell : this.basket.getCells()) {
             found = false;
             for (String cellId : cellIds) {
                 // TODO Youssef
+
             }
-            
+
             if (!found) {
-                fail("Cell "+cell.getCellId()+" was found in basket list of cells but was not expected.");
+                fail("Cell " + cell.getCellId()
+                        + " was found in basket list of cells but was not expected.");
             }
         }
     }
-    
+
     /**
      * Check the creation of a basket from a file
      */
@@ -113,24 +137,106 @@ public class BasketTests {
         File basket1File = new File(BASKET1);
         try {
             this.basket.loadBasket(basket1File);
-        } catch(Exception e) {
+        } catch (Exception e) {
             fail();
         }
         assertNotNull(this.basket);
         assertNotNull(this.basket.getCells());
         assertEquals(6, this.basket.getCells().size());
+
+        assertTrue(this.basket.getCells().get(0) instanceof BasketCell);
     }
-    
+
     /**
      * Check the save of a basket
+     * 
      * @throws Exception
      */
     @Test
     public void testBasketSaveToFile() throws Exception {
-        // TODO Youssef : lire un panier, le sauvegarder sous un fichier different, verifier que le fichier n'est pas vide, charger un nouveau panier a partir de ce fichier, verifier qu'on a le meme nb de cellules et les memes cellules (sans utiliser le compare)
-        
+        // TODO Youssef : lire un panier
+        File basket1File = new File(BASKET1);
+        try {
+            this.basket.loadBasket(basket1File);
+        } catch (Exception e) {
+            fail();
+        }
+
+        // le sauvegarder sous un fichier different,
+        File basket2File = new File(BASKET2);
+        try {
+            this.basket.saveBasket(basket2File);
+        } catch (Exception e) {
+            fail();
+        }
+
+        // verifier que le fichier n'est pas vide,
+        assertTrue(basket2File.exists());
+        assertTrue(basket2File.length() > 0);
+
+        // Créer un nouveau basket
+        BasketJaxbImpl basketNew = new BasketJaxbImpl();
+        // Charger dans se basket le fichier basket2
+        basketNew.loadBasket(basket2File);
+
+        // Vérifier que l'on a le même nombre de cellule que this.basket.
+
+        assertEquals(this.basket.getCells().size(),
+                basketNew.getCells().size());
+
+        // Vérifier que l'on à les mêmes cellules (sans utiliser le compare)
+        boolean found = false;
+        for (BasketCell cell : this.basket.getCells()) {
+            found = false;
+            for (BasketCell cell2 : basketNew.getCells()) {
+                if (cell.getCellId().equalsIgnoreCase(cell2.getCellId())
+                        && cell.getCellEdtn() == cell2.getCellEdtn()
+                        && cell.getCellService() == cell2.getCellService()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                fail("Expected cell " + cell.getCellId()
+                        + " was not found in basket list of cells.");
+            }
+        }
+
+        // Charge un panier XML
+
+        this.basket.loadBasket(basket1File);
+
+        // modifier la cellule FR373840 et modifier cellEdtn à 2
+        BasketCellImpl basketCell = (BasketCellImpl) this.basket
+                .getCellById("FR373840");
+        basketCell.setCellEdtn(2);
+
+        // sauvegarder mon panier
+        File basket3File = new File(BASKET3);
+        try {
+            this.basket.saveBasket(basket3File);
+        } catch (Exception e) {
+            fail();
+        }
+
+        // relire le fichier xml dans un nouveau panier
+        BasketJaxbImpl basketnotequal = new BasketJaxbImpl();
+
+        try {
+            basketnotequal.loadBasket(basket3File);
+        } catch (Exception e) {
+            fail();
+        }
+
+        // Verifier que les deux panier on la cellule FR373840 identique mais
+        // l'EDNT est différente et simplement celle là.
+
+        BasketCell cellOriginal = basketNew.getCellById("FR373840");
+        BasketCell cellModifiade = basketnotequal.getCellById("FR373840");
+
+        assertEquals(cellOriginal.getCellId(), cellModifiade.getCellId());
+        assertNotEquals(cellOriginal.getCellEdtn(), cellModifiade.getCellEdtn());
+        assertEquals(cellOriginal.getCellService(), cellModifiade.getCellService());
+
     }
-
 }
-
-
