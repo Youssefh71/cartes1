@@ -33,6 +33,9 @@ public class BasketCellTest {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void test() {
 		final String idRef = "Toto";

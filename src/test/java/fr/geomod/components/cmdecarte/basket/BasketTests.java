@@ -28,6 +28,8 @@ import org.junit.platform.commons.annotation.Testable;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
+import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
+import fr.geomod.components.cmdecarte.basket.model.helper.BasketHelperImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketCellImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
 
@@ -86,6 +88,8 @@ public class BasketTests {
 
     /**
      * Check that a basket from a predefined file contains expected cells
+     * 
+     * @throws Exception
      */
     @Test
     public void testBasketGetCells() throws Exception {
@@ -118,8 +122,10 @@ public class BasketTests {
         for (BasketCell cell : this.basket.getCells()) {
             found = false;
             for (String cellId : cellIds) {
-                // TODO Youssef
-
+                if (cell.getCellId().equalsIgnoreCase(cellId)) {
+                    found = true;
+                    break;
+                }
             }
 
             if (!found) {
@@ -131,6 +137,8 @@ public class BasketTests {
 
     /**
      * Check the creation of a basket from a file
+     * 
+     * @throws Exception
      */
     @Test
     public void testBasketCreationFromFile() throws Exception {
@@ -154,7 +162,7 @@ public class BasketTests {
      */
     @Test
     public void testBasketSaveToFile() throws Exception {
-        // TODO Youssef : lire un panier
+        // lire un panier
         File basket1File = new File(BASKET1);
         try {
             this.basket.loadBasket(basket1File);
@@ -235,8 +243,100 @@ public class BasketTests {
         BasketCell cellModifiade = basketnotequal.getCellById("FR373840");
 
         assertEquals(cellOriginal.getCellId(), cellModifiade.getCellId());
-        assertNotEquals(cellOriginal.getCellEdtn(), cellModifiade.getCellEdtn());
-        assertEquals(cellOriginal.getCellService(), cellModifiade.getCellService());
+        assertNotEquals(cellOriginal.getCellEdtn(),
+                cellModifiade.getCellEdtn());
+        assertEquals(cellOriginal.getCellService(),
+                cellModifiade.getCellService());
 
     }
+
+    /**
+     * Test method for
+     * {@link fr.geomod.components.cmdecarte.basket.model.BasketComparison#getNewCells()}.
+     */
+    @Test
+    public void testGetNewCells() {
+        // Lire les paniers
+        File basketRef = new File(BASKET1);
+        File baskePlusCell = new File(BASKET1_PLUS_1_CELL);
+        // Créer un nouveau basket
+        BasketJaxbImpl basketReference = new BasketJaxbImpl();
+        BasketJaxbImpl basketPlusCellFile = new BasketJaxbImpl();
+        // Charger dans le basket
+        basketReference.loadBasket(basketRef);
+        basketPlusCellFile.loadBasket(baskePlusCell);
+
+        BasketComparison result = null;
+
+        if (null != basketReference && null != basketPlusCellFile) {
+            result = BasketHelperImpl.compare(basketReference,
+                    basketPlusCellFile);
+            assertEquals(basketPlusCellFile.getCellById("GB301366"),
+                    result.getNewCells().get(0));
+            assertNotEquals(basketReference.getCellById("GB301366"),
+                    result.getNewCells().get(0));
+
+        }
+
+    }
+
+    /**
+     * Test method for
+     * {@link fr.geomod.components.cmdecarte.basket.model.BasketComparison#getDeletedCells()}.
+     */
+    @Test
+    public void testGetDeletedCells() {
+        // Lire les paniers
+        File basketRef = new File(BASKET1);
+        File baskeMinusCell = new File(BASKET1_MINUS_1_CELL);
+        // Créer un nouveau basket
+        BasketJaxbImpl basketReference = new BasketJaxbImpl();
+        BasketJaxbImpl basketMinusCellFile = new BasketJaxbImpl();
+        // Charger dans le basket
+        basketReference.loadBasket(basketRef);
+        basketMinusCellFile.loadBasket(baskeMinusCell);
+
+        BasketComparison result = null;
+
+        if (null != basketReference && null != basketMinusCellFile) {
+            result = BasketHelperImpl.compare(basketReference,
+                    basketMinusCellFile);
+            assertEquals(basketReference.getCellById("GB303648"),
+                    result.getDeletedCells().get(0));
+            assertNotEquals(basketMinusCellFile.getCellById("GB303648"),
+                    result.getDeletedCells().get(0));
+        }
+    }
+
+    /**
+     * Test method for
+     * {@link fr.geomod.components.cmdecarte.basket.model.BasketComparison#getCellsWithDifferences()}.
+     */
+    @Test
+    public void testGetCellsWithDifferences() {
+        // Lire les paniers
+        File basketRef = new File(BASKET1);
+        File baskeWithDiffsCell = new File(BASKET1_WITH_DIFFS);
+        // Créer un nouveau basket
+        BasketJaxbImpl basketReference = new BasketJaxbImpl();
+        BasketJaxbImpl basketWithDiffsCellFile = new BasketJaxbImpl();
+        // Charger dans le basket
+        basketReference.loadBasket(basketRef);
+        basketWithDiffsCellFile.loadBasket(baskeWithDiffsCell);
+
+        BasketComparison result = null;
+
+        if (null != basketReference && null != basketWithDiffsCellFile) {
+            result = BasketHelperImpl.compare(basketReference,
+                    basketWithDiffsCellFile);
+
+            assertEquals(basketWithDiffsCellFile.getCellById("GB104209").getCellId(),
+                    result.getCellsWithDifferences().get(0).getCellId());
+            assertEquals(basketWithDiffsCellFile.getCellById("GB104209").getCellService(),
+                    result.getCellsWithDifferences().get(0).getCellService());
+            assertNotEquals(basketReference.getCellById("GB104209").getCellEdtn(),
+                    result.getCellsWithDifferences().get(0).getCellEdtn());
+        }
+    }
+
 }

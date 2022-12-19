@@ -48,6 +48,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OrderType }
+     * @return OrderType
      * 
      */
     public OrderType createOrderType() {
@@ -56,6 +57,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OrderHeaderType }
+     * @return OrderHeaderType
      * 
      */
     public OrderHeaderType createOrderHeaderType() {
@@ -64,6 +66,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CellType }
+     * @return CellType
      * 
      */
     public CellType createCellType() {

@@ -38,6 +38,7 @@ public interface BasketComparison {
     
     /**
      * Get a list of cells that are in both baskets but with different attribute values
+     * Les cellules retournés sont les cellules du new Basket.
      * @return The list of cells with different attribute values.
      */
     public List<BasketCell> getCellsWithDifferences();
