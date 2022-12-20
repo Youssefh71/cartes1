@@ -16,6 +16,7 @@ package fr.geomod.components.cmdecarte.basket;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -266,17 +267,23 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketPlusCellFile.loadBasket(baskePlusCell);
 
-        BasketComparison result = null;
+        assertNotNull("BasketReference should not be null", basketReference);
+        assertNotNull("BasketPlusCellFile should not be null",
+                basketPlusCellFile);
 
-        if (null != basketReference && null != basketPlusCellFile) {
-            result = BasketHelperImpl.compare(basketReference,
-                    basketPlusCellFile);
-            assertEquals(basketPlusCellFile.getCellById("GB301366"),
-                    result.getNewCells().get(0));
-            assertNotEquals(basketReference.getCellById("GB301366"),
-                    result.getNewCells().get(0));
+        BasketComparison result = BasketHelperImpl.compare(basketReference,
+                basketPlusCellFile);
 
-        }
+        assertNotNull("result should not be null", result);
+        assertNotNull("No new Cells found", result.getNewCells());
+
+        BasketCell newCell = result.getNewCells().get(0);
+
+        assertEquals("this is not the expected cell", "GB301366",
+                newCell.getCellId());
+
+        assertNull("Should be null",
+                basketReference.getCellById(newCell.getCellId()));
 
     }
 
@@ -296,16 +303,21 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketMinusCellFile.loadBasket(baskeMinusCell);
 
-        BasketComparison result = null;
+        assertNotNull("BasketReference should not be null", basketReference);
+        assertNotNull("BasketMinusCellFile should not be null",
+                basketMinusCellFile);
+        BasketComparison result = BasketHelperImpl.compare(basketReference,
+                basketMinusCellFile);
 
-        if (null != basketReference && null != basketMinusCellFile) {
-            result = BasketHelperImpl.compare(basketReference,
-                    basketMinusCellFile);
-            assertEquals(basketReference.getCellById("GB303648"),
-                    result.getDeletedCells().get(0));
-            assertNotEquals(basketMinusCellFile.getCellById("GB303648"),
-                    result.getDeletedCells().get(0));
-        }
+        assertNotNull("result should not be null", result);
+        assertNotNull("No deleted cell found", result.getDeletedCells());
+
+        BasketCell deletedCell = result.getDeletedCells().get(0);
+
+        assertEquals("this is not the expected cell", "GB303648",
+                deletedCell.getCellId());
+        assertNull("Should be null",
+                basketMinusCellFile.getCellById("GB303648"));
     }
 
     /**
@@ -324,19 +336,29 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketWithDiffsCellFile.loadBasket(baskeWithDiffsCell);
 
-        BasketComparison result = null;
+        assertNotNull("BasketReference should not be null", basketReference);
+        assertNotNull("BasketWithDiffsCellFile should not be null",
+                basketWithDiffsCellFile);
+        BasketComparison result = BasketHelperImpl.compare(basketReference,
+                basketWithDiffsCellFile);
 
-        if (null != basketReference && null != basketWithDiffsCellFile) {
-            result = BasketHelperImpl.compare(basketReference,
-                    basketWithDiffsCellFile);
+        assertNotNull("Result should not be null", result);
+        assertNotNull("No modified cell", result.getCellsWithDifferences());
 
-            assertEquals(basketWithDiffsCellFile.getCellById("GB104209").getCellId(),
-                    result.getCellsWithDifferences().get(0).getCellId());
-            assertEquals(basketWithDiffsCellFile.getCellById("GB104209").getCellService(),
-                    result.getCellsWithDifferences().get(0).getCellService());
-            assertNotEquals(basketReference.getCellById("GB104209").getCellEdtn(),
-                    result.getCellsWithDifferences().get(0).getCellEdtn());
-        }
+        BasketCell modifiedCell = result.getCellsWithDifferences().get(0);
+
+        assertEquals("this is not the expected cell", "GB104209",
+                modifiedCell.getCellId());
+
+        BasketCell referenceCell = basketReference
+                .getCellById(modifiedCell.getCellId());
+
+        assertEquals("Service cell is different",referenceCell.getCellService(),
+                modifiedCell.getCellService());
+        assertNotEquals("Edition cell should have been modified",referenceCell.getCellEdtn(),
+                modifiedCell.getCellEdtn());
+        assertEquals("Edition Cell is different",2, modifiedCell.getCellEdtn());
+
     }
 
 }
