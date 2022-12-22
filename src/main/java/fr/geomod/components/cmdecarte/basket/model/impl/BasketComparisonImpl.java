@@ -13,6 +13,7 @@
  */
 package fr.geomod.components.cmdecarte.basket.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
@@ -30,12 +31,27 @@ import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
 public class BasketComparisonImpl implements BasketComparison {
 
     /**
+     * List of new Cells
+     */
+    private List<BasketCell> newCells;
+    
+    /**
+     * List of deleted Cells
+     */
+    private List<BasketCell> deletedCells;
+    
+    /**
+     * List of cells with differences
+     */
+    private List<BasketCell> cellsWithDifferences;
+    
+
+    /**
      * {@inheritDoc}
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getNewCells()
      */
     public List<BasketCell> getNewCells() {
-        // TODO Youssef
-        return null;
+        return this.newCells;
     }
 
     /**
@@ -43,8 +59,7 @@ public class BasketComparisonImpl implements BasketComparison {
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getDeletedCells()
      */
     public List<BasketCell> getDeletedCells() {
-        // TODO Youssef
-        return null;
+        return this.deletedCells;
     }
 
     /**
@@ -52,10 +67,53 @@ public class BasketComparisonImpl implements BasketComparison {
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getCellsWithDifferences()
      */
     public List<BasketCell> getCellsWithDifferences() {
-        // TODO Youssef
-        return null;
+        return this.cellsWithDifferences;
     }
 
+    /**
+     * Add deleted cell to list
+     * @param cell cell to add
+     */
+    public void addDeletedCells(BasketCell cell) {
+        // Créer une list vide
+        if(this.deletedCells == null) {
+            this.deletedCells = new ArrayList<>();
+        }
+        
+        //Ajouter la cellule à ma nouvelle liste
+        this.deletedCells.add(cell);
+       
+    }
+
+    /**
+     * Add differences cell to list
+     * @param cell cell to add
+     */
+    public void addCellsWithDifferences(BasketCell cell) {
+     // Créer une list vide
+        if(this.cellsWithDifferences == null) {
+            this.cellsWithDifferences = new ArrayList<>();
+        }
+        
+        //Ajouter la cellule à ma nouvelle liste
+        this.cellsWithDifferences.add(cell);
+        
+    }
+
+    /**
+     * Add new cell to list
+     * @param cell cell to add
+     */
+    public void addNewCells(BasketCell cell) {
+     // Créer une list vide
+        if(this.newCells == null) {
+            this.newCells = new ArrayList<>();
+        }
+        
+        //Ajouter la cellule à ma nouvelle liste
+        this.newCells.add(cell);
+       
+    }
 }
 
 

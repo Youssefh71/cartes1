@@ -16,6 +16,7 @@ package fr.geomod.components.cmdecarte.basket.controler;
 import java.io.File;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
+import fr.geomod.components.cmdecarte.basket.model.BasketCell;
 import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
 import fr.geomod.components.cmdecarte.basket.model.helper.BasketHelperImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
@@ -52,8 +53,21 @@ public class BasketControler {
         if (null == diffs) {
             System.out.println("No difference found.");
         } else {
-            System.out.println("Nb different cells: "+diffs.getCellsWithDifferences().size());
-            // TODO Youssef à compléter        
+            System.out.println("Nb new cells: " +diffs.getNewCells().size());
+            for(BasketCell cell: diffs.getNewCells()) {
+               System.out.println(cell.getCellId());   
+            }
+            System.out.println("Nb deleted cells: " +diffs.getDeletedCells().size());
+            for(BasketCell cell: diffs.getDeletedCells()) {
+                System.out.println(cell.getCellId());   
+             }
+            System.out.println("Nb different cells: "+diffs.getCellsWithDifferences().size()/2);
+            for(BasketCell cell: diffs.getCellsWithDifferences()) {
+                System.out.println("cells Id: "+cell.getCellId()); 
+                System.out.println("cells Edtn: "+cell.getCellEdtn());
+                System.out.println("cells service: "+cell.getCellService());
+             }
+            
         }
     }
 
@@ -66,6 +80,7 @@ public class BasketControler {
         if (null != this.basketReference && null != this.basketNew) {
             result = BasketHelperImpl.compare(basketReference, basketNew);
         }
+        
         return result;
     }
 

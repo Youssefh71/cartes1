@@ -16,6 +16,7 @@ package fr.geomod.components.cmdecarte.basket.model;
 import java.io.File;
 import java.util.List;
 
+
 /**
  * <p><B>Title </B>: Basket.</p>
  * <p><B>Copyright </B>: Copyright (c) 2022. </p>
