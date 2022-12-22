@@ -59,14 +59,14 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
-						<source>18</source>
-						<target>18</target>
+						<source>1.8</source>
+						<target>1.8</target>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<!-- <plugin>
+			 <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
 				<version>2.4</version>
@@ -79,10 +79,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					The package of your fr.geomod.components.cmdecarte.basket.model.generated sources 
+					<!-- The package of your fr.geomod.components.cmdecarte.basket.model.generated sources -->
 					<packageName>fr.geomod.components.cmdecarte.basket.model.generated</packageName>
 				</configuration>
-			</plugin> -->
+			</plugin> 
 
 		</plugins>
 	</build>

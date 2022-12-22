@@ -267,15 +267,26 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketPlusCellFile.loadBasket(baskePlusCell);
 
+        // check that the basket is not null
         assertNotNull("BasketReference should not be null", basketReference);
         assertNotNull("BasketPlusCellFile should not be null",
                 basketPlusCellFile);
 
+        // comparison of the two basket
         BasketComparison result = BasketHelperImpl.compare(basketReference,
                 basketPlusCellFile);
-
+        // check that the variable result is not null
         assertNotNull("result should not be null", result);
+        // check that getNewcells is not null
         assertNotNull("No new Cells found", result.getNewCells());
+        // check that there are no less cells
+        assertNull("deleted cell found", result.getDeletedCells());
+        // check that there is no different cell
+        assertNull("modified cell found", result.getCellsWithDifferences());
+
+        // Check that only one cell has been added
+        assertEquals("More than one cell different", 1,
+                result.getNewCells().size());
 
         BasketCell newCell = result.getNewCells().get(0);
 
@@ -303,14 +314,26 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketMinusCellFile.loadBasket(baskeMinusCell);
 
+        // check that the basket is not null
         assertNotNull("BasketReference should not be null", basketReference);
         assertNotNull("BasketMinusCellFile should not be null",
                 basketMinusCellFile);
+        // comparison of the two basket
         BasketComparison result = BasketHelperImpl.compare(basketReference,
                 basketMinusCellFile);
 
+        // check that the variable result is not null
         assertNotNull("result should not be null", result);
+        // check that getDeletedcells is not null
         assertNotNull("No deleted cell found", result.getDeletedCells());
+        // check that there are no less cells
+        assertNull("New cell found", result.getNewCells());
+        // check that there is no different cell
+        assertNull("modified cell found", result.getCellsWithDifferences());
+
+        // Check that only one cell has been deleted
+        assertEquals("More than one cell has been deleted", 1,
+                result.getDeletedCells().size());
 
         BasketCell deletedCell = result.getDeletedCells().get(0);
 
@@ -344,6 +367,11 @@ public class BasketTests {
 
         assertNotNull("Result should not be null", result);
         assertNotNull("No modified cell", result.getCellsWithDifferences());
+        assertNull("New celle found", result.getNewCells());
+        assertNull("deleted cell found", result.getDeletedCells());
+
+        assertEquals("More than one cell has been modified", 1,
+                result.getCellsWithDifferences().size());
 
         BasketCell modifiedCell = result.getCellsWithDifferences().get(0);
 
@@ -353,11 +381,12 @@ public class BasketTests {
         BasketCell referenceCell = basketReference
                 .getCellById(modifiedCell.getCellId());
 
-        assertEquals("Service cell is different",referenceCell.getCellService(),
-                modifiedCell.getCellService());
-        assertNotEquals("Edition cell should have been modified",referenceCell.getCellEdtn(),
+        assertEquals("Service cell is different",
+                referenceCell.getCellService(), modifiedCell.getCellService());
+        assertNotEquals("Edition cell is equal", referenceCell.getCellEdtn(),
                 modifiedCell.getCellEdtn());
-        assertEquals("Edition Cell is different",2, modifiedCell.getCellEdtn());
+        assertEquals("Edition Cell is different", 2,
+                modifiedCell.getCellEdtn());
 
     }
 
