@@ -25,7 +25,6 @@ import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.platform.commons.annotation.Testable;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
@@ -54,7 +53,7 @@ import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
  * @author GEOMOD
  * @since 2022
  */
-@Testable
+
 public class BasketTests {
     private static final String BASKET_DIR = "./data";
     private static final String BASKET_DIR_OUTPUT = "./data_generated";
