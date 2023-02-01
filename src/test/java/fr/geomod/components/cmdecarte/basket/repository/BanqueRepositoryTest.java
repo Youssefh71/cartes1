@@ -1,5 +1,5 @@
 /*
- * @(#)ConversionRepositoryTest.java
+ * @(#)BanqueRepositoryTest.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -26,40 +26,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import fr.geomod.components.cmdecarte.basket.model.entity.Conversion;
+import fr.geomod.components.cmdecarte.basket.model.entity.Banque;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: ConversionRepositoryTest.java.</p>
+ * <p><B>Title </B>: BanqueRepositoryTest.java.</p>
  * <p><B>Copyright </B>: Copyright (c) 2023. </p>
  * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: ConversionRepositoryTest.java</p>
+ * <p><B>Filename </B>: BanqueRepositoryTest.java</p>
  * <p><B>Description </B>:  </p>
  * @author GEOMOD
  * @since 2023
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ConversionRepositoryTest {
+public class BanqueRepositoryTest {
     
     @Autowired
-    private ConversionRepository repository;
-
+    private BanqueRepository repository;
+    
     @Autowired
     private EntityManager em;
-
-    private static final LocalDate DATE_CONVERSION = LocalDate.now();
-
-    private static final float TAUX = (float) 1.1;
-
-    private Conversion taux= Conversion.builder().dateConversion(DATE_CONVERSION).taux(TAUX).build();
     
-    private Conversion conversionSave;
+    private static final LocalDate DATE_Banque = LocalDate.now();
+    private static final String NAME = "BNP Paribas";
+    private static final String IBAN = "FR76.3000.4001.6500.0100.3001.538";
+    private static final String BIC = "BNPAFRPPVBE";
+    
+    private Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
+    
+    private Banque banqueSave;
 
     @Before
     public void setUp() throws Exception {
-        em.persist(taux);
+        
+        em.persist(banque);
         
     }
 
@@ -69,24 +72,23 @@ public class ConversionRepositoryTest {
 
     @Test
     @Transactional
-    //@Commit
     public void testSave() {
-              
-        conversionSave=   repository.save(taux);
+        banqueSave = repository.save(banque);
         
-        assertThat(conversionSave.getTaux()).isEqualTo(1.1f);
-        assertThat(conversionSave.getDateConversion()).isEqualTo(LocalDate.now());
-       
+        assertThat(banqueSave.getBic()).isEqualTo("BNPAFRPPVBE");
+        assertThat(banqueSave.getIban()).isEqualTo("FR76.3000.4001.6500.0100.3001.538");
+        assertThat(banqueSave.getName()).isEqualTo("BNP Paribas");
+        assertThat(banqueSave.getDateBanque()).isEqualTo(LocalDate.now());
     }
-
+    
     @Test
     @Transactional
     public void testFindById() {
         
-        conversionSave=   repository.save(taux);
+        banqueSave = repository.save(banque);
 
-        assertThat(repository.findById(taux.getId()))
-                .isEqualTo(Optional.of(taux));
+        assertThat(repository.findById(banqueSave.getId()))
+                .isEqualTo(Optional.of(banque));
 
     }
     
@@ -94,13 +96,14 @@ public class ConversionRepositoryTest {
     @Transactional
     public void testDeleteById() {
         
-        conversionSave=   repository.save(taux);
+        banqueSave = repository.save(banque);
         
-        repository.deleteById(taux.getId());
+        repository.deleteById(banqueSave.getId());
 
-        assertThat(repository.findById(taux.getId())).isEmpty();
+        assertThat(repository.findById(banqueSave.getId())).isEmpty();
 
     }
+
 
 }
 

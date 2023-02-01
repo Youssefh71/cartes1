@@ -1,5 +1,5 @@
 /*
- * @(#)TauxDeConversion.java
+ * @(#)Contact.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -13,56 +13,61 @@
  */
 package fr.geomod.components.cmdecarte.basket.model.entity;
 
-import java.time.LocalDate;
+
 import java.util.Objects;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Builder;
+
 /**
- * <p><B>Title </B>: TauxDeConversion.java.</p>
+ * <p><B>Title </B>: Contact.java.</p>
  * <p><B>Copyright </B>: Copyright (c) 2023. </p>
  * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: TauxDeConversion.java</p>
+ * <p><B>Filename </B>: Contact.java</p>
  * <p><B>Description </B>:  </p>
  * @author GEOMOD
  * @since 2023
  */
 
-
 @Builder
 @Entity
-@Table(name = "conversion")
-public class Conversion {
+@Table(name = "contact")
+public class Contact {
     
     
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_conversion")
+    @Column(name = "id_contact")
     private Long id;
-    
-    private float taux;
-    
-    private LocalDate dateConversion;
+
+    private String mail;
+
+    private String phone;
     
     /**
-     *  Conversion constructor
+     * COntact Constructor
      */
-    public Conversion() {
+    public Contact() {
         super();
     }
 
     /**
      * @param id
-     * @param taux
-     * @param dateConversion
+     * @param mail
+     * @param phone
      */
-    public Conversion(Long id, float taux, LocalDate dateConversion) {
+    public Contact(Long id, String mail, String phone) {
         super();
         this.id = id;
-        this.taux = taux;
-        this.dateConversion = dateConversion;
+        this.mail = mail;
+        this.phone = phone;
     }
-
 
     /**
      * @return Returns the id.
@@ -79,31 +84,31 @@ public class Conversion {
     }
 
     /**
-     * @return Returns the taux.
+     * @return Returns the mail.
      */
-    public float getTaux() {
-        return taux;
+    public String getMail() {
+        return mail;
     }
 
     /**
-     * @param taux The taux to set.
+     * @param mail The mail to set.
      */
-    public void setTaux(float taux) {
-        this.taux = taux;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     /**
-     * @return Returns the dateConversion.
+     * @return Returns the phone.
      */
-    public LocalDate  getDateConversion() {
-        return dateConversion;
+    public String getPhone() {
+        return phone;
     }
 
     /**
-     * @param dateConversion The dateConversion to set.
+     * @param phone The phone to set.
      */
-    public void setDateConversion(LocalDate dateConversion) {
-        this.dateConversion = dateConversion;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     /**
@@ -112,7 +117,7 @@ public class Conversion {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(dateConversion, id, taux);
+        return Objects.hash(id, mail, phone);
     }
 
     /**
@@ -124,13 +129,12 @@ public class Conversion {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Conversion)) {
+        if (!(obj instanceof Contact)) {
             return false;
         }
-        Conversion other = (Conversion) obj;
-        return Objects.equals(dateConversion, other.dateConversion)
-                && Objects.equals(id, other.id)
-                && Objects.equals(taux, other.taux);
+        Contact other = (Contact) obj;
+        return Objects.equals(id, other.id) && Objects.equals(mail, other.mail)
+                && Objects.equals(phone, other.phone);
     }
 
     /**
@@ -139,8 +143,8 @@ public class Conversion {
      */
     @Override
     public String toString() {
-        return "Conversion [id=" + id + ", taux=" + taux + ", dateConversion="
-                + dateConversion + "]";
+        return "Contact [id=" + id + ", mail=" + mail + ", phone=" + phone
+                + "]";
     }
 
 }

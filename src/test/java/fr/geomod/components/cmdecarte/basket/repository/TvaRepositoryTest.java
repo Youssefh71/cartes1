@@ -64,7 +64,7 @@ public class TvaRepositoryTest {
 
     private static final LocalDate DATE_TVA = LocalDate.now();
 
-    private static final Integer MONTANT = 20;
+    private static final float MONTANT = (float) 5.5;
 
     private Tva tva = Tva.builder().dateTva(DATE_TVA).montant(MONTANT).build();
     
@@ -81,6 +81,9 @@ public class TvaRepositoryTest {
 
     }
 
+    /**
+     * Commit permet
+     */
     @Test
     @Transactional
     @Commit
@@ -88,7 +91,7 @@ public class TvaRepositoryTest {
               
         tvaSave=   repository.save(tva);
         
-        assertThat(tvaSave.getMontant()).isEqualTo(20);
+        assertThat(tvaSave.getMontant()).isEqualTo(5.5f);
         assertThat(tvaSave.getDateTva()).isEqualTo(LocalDate.now());
         System.out.println(tvaSave);
     }

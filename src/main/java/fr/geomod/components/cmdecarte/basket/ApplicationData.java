@@ -44,27 +44,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ApplicationData {
 
-//    private static final LocalDate DATE_TVA = LocalDate.now();
-//
-//    private static final Integer MONTANT = 6;
-//
-//    private final Tva taux = Tva.builder().id(1L).dateTva(DATE_TVA)
-//            .montant(MONTANT).build();
-
     /**
      * @param args
      */
     public static void main(String[] args) {
         SpringApplication.run(ApplicationData.class, args);
     }
-
-//  @Bean
-//   public CommandLineRunner demo(TvaRepository repository) {
-// return (args) -> {
-//repository.save(taux);
-
-
-//     };
-//    }
 
 }
