@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS conversion
 -- table de référence frais
 CREATE TABLE IF NOT EXISTS markup
 (
-    id_frais BIGSERIAL PRIMARY KEY ,
+    id_markup BIGSERIAL PRIMARY KEY ,
     montant FLOAT   NOT NULL,
-   date_frais DATE NOT NULL
+   date_markup DATE NOT NULL
 );
 
 -- table de référence tva

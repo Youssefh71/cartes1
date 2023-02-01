@@ -1,5 +1,5 @@
 /*
- * @(#)ConversionRepositoryTest.java
+ * @(#)MarkupRepositoryTest.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -24,81 +24,78 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import fr.geomod.components.cmdecarte.basket.model.entity.Conversion;
+import fr.geomod.components.cmdecarte.basket.model.entity.Markup;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: ConversionRepositoryTest.java.</p>
+ * <p><B>Title </B>: MarkupRepositoryTest.java.</p>
  * <p><B>Copyright </B>: Copyright (c) 2023. </p>
  * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: ConversionRepositoryTest.java</p>
+ * <p><B>Filename </B>: MarkupRepositoryTest.java</p>
  * <p><B>Description </B>:  </p>
  * @author GEOMOD
  * @since 2023
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ConversionRepositoryTest {
+public class MarkupRepositoryTest {
     
     @Autowired
-    private ConversionRepository repository;
+    private MarkupRepository repository;
 
     @Autowired
     private EntityManager em;
-
-    private static final LocalDate DATE_CONVERSION = LocalDate.now();
-
-    private static final float TAUX = (float) 1.1;
-
-    private Conversion taux= Conversion.builder().dateConversion(DATE_CONVERSION).taux(TAUX).build();
     
-    private Conversion conversionSave;
+    private static final LocalDate DATE_MARKUP = LocalDate.now();
+
+    private static final float MONTANT = (float) 150;
+
+    private Markup markup = Markup.builder().dateMarkup(DATE_MARKUP).montant(MONTANT).build();
+    
+    private Markup markupSave;
 
     @Before
     public void setUp() throws Exception {
-        em.persist(taux);
-        
+        em.persist(markup);
     }
 
     @After
     public void tearDown() throws Exception {
     }
-
+    
     @Test
     @Transactional
-    //@Commit
+    @Commit
     public void testSave() {
               
-        conversionSave=   repository.save(taux);
+        markupSave=   repository.save(markup);
         
-        assertThat(conversionSave.getTaux()).isEqualTo(1.1f);
-        assertThat(conversionSave.getDateConversion()).isEqualTo(LocalDate.now());
-       
+        assertThat(markupSave.getMontant()).isEqualTo(150f);
+        assertThat(markupSave.getDateMarkup()).isEqualTo(LocalDate.now());
+
     }
 
     @Test
     @Transactional
-    public void testFindById() {
-        
-        conversionSave=   repository.save(taux);
+    public void findById() {
 
-        assertThat(repository.findById(taux.getId()))
-                .isEqualTo(Optional.of(taux));
+        assertThat(repository.findById(markup.getId()))
+                .isEqualTo(Optional.of(markup));
 
     }
     
     @Test
     @Transactional
-    public void testDeleteById() {
+    public void deleteById() {
         
-        conversionSave=   repository.save(taux);
-        
-        repository.deleteById(taux.getId());
+        repository.deleteById(markup.getId());
 
-        assertThat(repository.findById(taux.getId())).isEmpty();
+        assertThat(repository.findById(markup.getId())).isEmpty();
 
     }
 
