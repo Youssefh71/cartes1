@@ -1,5 +1,5 @@
 /*
- * @(#)BanqueRepositoryTest.java
+ * @(#)CellRepositoryTest.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -15,7 +15,6 @@ package fr.geomod.components.cmdecarte.basket.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.After;
@@ -26,15 +25,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import fr.geomod.components.cmdecarte.basket.model.entity.Banque;
+import fr.geomod.components.cmdecarte.basket.model.entity.Cell;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: BanqueRepositoryTest.java.</p>
+ * <p><B>Title </B>: CellRepositoryTest.java.</p>
  * <p><B>Copyright </B>: Copyright (c) 2023. </p>
  * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: BanqueRepositoryTest.java</p>
+ * <p><B>Filename </B>: CellRepositoryTest.java</p>
  * <p><B>Description </B>:  </p>
  * @author GEOMOD
  * @since 2023
@@ -42,35 +41,31 @@ import jakarta.transaction.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BanqueRepositoryTest {
-    
+public class CellRepositoryTest {
     /**
-     * Automatically inject dependencies of BanqueRepository
+     * Automatically inject dependencies of OrderHeaderRepository
      */
     @Autowired
-    private BanqueRepository repository;
-    
-    
+    private CellRepository repository;
+
     /**
      * Automatically inject dependencies of EntityManager
      */
     @Autowired
     private EntityManager em;
     
-    private static final LocalDate DATE_Banque = LocalDate.now();
-    private static final String NAME = "BNP Paribas";
-    private static final String IBAN = "FR76.3000.4001.6500.0100.3001.538";
-    private static final String BIC = "BNPAFRPPVBE";
+    private static final String  NAME = "GB30364";
+
+    private static final Integer SERVICE_TYPE= 1;
     
-    private Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
-    
-    private Banque banqueSave;
+    private Cell cell = Cell.builder().cellName(NAME).cellEdtn(null).serviceType(SERVICE_TYPE).build();
+
+    private Cell cellSave;
 
     @Before
     public void setUp() throws Exception {
-        
-        em.persist(banque);
-        
+
+        em.persist(cell);
     }
 
     @After
@@ -83,40 +78,38 @@ public class BanqueRepositoryTest {
     @Test
     @Transactional
     public void testSave() {
-        banqueSave = repository.save(banque);
-        
-        assertThat(banqueSave.getBic()).isEqualTo("BNPAFRPPVBE");
-        assertThat(banqueSave.getIban()).isEqualTo("FR76.3000.4001.6500.0100.3001.538");
-        assertThat(banqueSave.getName()).isEqualTo("BNP Paribas");
-        assertThat(banqueSave.getDateBanque()).isEqualTo(LocalDate.now());
+        cellSave= repository.save(cell);
+
+        assertThat(cellSave.getId()).isNotNull();
+
     }
-    
+
     /**
      * checks if the entity with the given id was found
      */
     @Test
     @Transactional
     public void testFindById() {
-        
-        banqueSave = repository.save(banque);
 
-        assertThat(repository.findById(banqueSave.getId()))
-                .isEqualTo(Optional.of(banque));
+        cellSave= repository.save(cell);
+
+        assertThat(repository.findById(cellSave.getId()))
+                .isEqualTo(Optional.of(cell));
 
     }
-    
+
     /**
      * checks if the entity with the given id has been deleted
      */
     @Test
     @Transactional
     public void testDeleteById() {
-        
-        banqueSave = repository.save(banque);
-        
-        repository.deleteById(banqueSave.getId());
 
-        assertThat(repository.findById(banqueSave.getId())).isEmpty();
+        cellSave= repository.save(cell);
+
+        repository.deleteById(cellSave.getId());
+
+        assertThat(repository.findById(cellSave.getId())).isEmpty();
 
     }
 

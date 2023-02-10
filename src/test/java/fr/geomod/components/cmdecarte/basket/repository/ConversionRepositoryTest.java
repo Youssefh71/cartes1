@@ -31,18 +31,29 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: ConversionRepositoryTest.java.</p>
- * <p><B>Copyright </B>: Copyright (c) 2023. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: ConversionRepositoryTest.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: ConversionRepositoryTest.java.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2023.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: ConversionRepositoryTest.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2023
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ConversionRepositoryTest {
-    
+
     @Autowired
     private ConversionRepository repository;
 
@@ -53,49 +64,59 @@ public class ConversionRepositoryTest {
 
     private static final float TAUX = (float) 1.1;
 
-    private Conversion taux= Conversion.builder().dateConversion(DATE_CONVERSION).taux(TAUX).build();
-    
+    private Conversion taux = Conversion.builder()
+            .dateConversion(DATE_CONVERSION).taux(TAUX).build();
+
     private Conversion conversionSave;
 
     @Before
     public void setUp() throws Exception {
         em.persist(taux);
-        
+
     }
 
     @After
     public void tearDown() throws Exception {
     }
 
+    /**
+     * checks if the entity has been saved
+     */
     @Test
     @Transactional
-    //@Commit
     public void testSave() {
-              
-        conversionSave=   repository.save(taux);
-        
+
+        conversionSave = repository.save(taux);
+
         assertThat(conversionSave.getTaux()).isEqualTo(1.1f);
-        assertThat(conversionSave.getDateConversion()).isEqualTo(LocalDate.now());
-       
+        assertThat(conversionSave.getDateConversion())
+                .isEqualTo(LocalDate.now());
+
     }
 
+    /**
+     * checks if the entity with the given id was found
+     */
     @Test
     @Transactional
     public void testFindById() {
-        
-        conversionSave=   repository.save(taux);
+
+        conversionSave = repository.save(taux);
 
         assertThat(repository.findById(taux.getId()))
                 .isEqualTo(Optional.of(taux));
 
     }
-    
+
+    /**
+     * checks if the entity with the given id has been deleted
+     */
     @Test
     @Transactional
     public void testDeleteById() {
-        
-        conversionSave=   repository.save(taux);
-        
+
+        conversionSave = repository.save(taux);
+
         repository.deleteById(taux.getId());
 
         assertThat(repository.findById(taux.getId())).isEmpty();
@@ -103,5 +124,3 @@ public class ConversionRepositoryTest {
     }
 
 }
-
-

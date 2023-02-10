@@ -1,5 +1,5 @@
 /*
- * @(#)ClientRepository.java
+ * @(#)OrderPanierRepository.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -13,39 +13,24 @@
  */
 package fr.geomod.components.cmdecarte.basket.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.geomod.components.cmdecarte.basket.model.entity.Client;
+import fr.geomod.components.cmdecarte.basket.model.entity.OrderPanier;
 
 /**
- * <p>
- * <B>Title </B>: ClientRepository.java.
- * </p>
- * <p>
- * <B>Copyright </B>: Copyright (c) 2023.
- * </p>
- * <p>
- * <B>Company </B>: GEOMOD
- * </p>
- * <p>
- * <B>Filename </B>: ClientRepository.java
- * </p>
- * <p>
- * <B>Description </B>:
- * </p>
- * 
+ * <p><B>Title </B>: OrderPanierRepository.java.</p>
+ * <p><B>Copyright </B>: Copyright (c) 2023. </p>
+ * <p><B>Company </B>: GEOMOD</p>
+ * <p><B>Filename </B>: OrderPanierRepository.java</p>
+ * <p><B>Description </B>:  </p>
  * @author GEOMOD
  * @since 2023
  */
 
 @Repository
-public interface ClientRepository extends CrudRepository<Client, Long> {
-
-    Client findByNameContaining(String name);
-    
-    @Query(value = "SELECT c.name FROM Client c JOIN Devis d ON c.id_client = d.id_devis WHERE d.numero LIKE '%';", nativeQuery = true)
-    Client findByDevis(String numero);
+public interface OrderPanierRepository extends CrudRepository<OrderPanier, Long> {
 
 }
+
+
