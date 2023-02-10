@@ -31,11 +31,22 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * <p><B>Title </B>: Cell.java.</p>
- * <p><B>Copyright </B>: Copyright (c) 2023. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: Cell.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: Cell.java.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2023.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: Cell.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2023
  */
@@ -50,16 +61,23 @@ import lombok.ToString;
 @Entity
 @Table(name = "cell")
 public class Cell {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cell")
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "fk_id_order")
     private OrderPanier panier;
 
+    @Column(name = "cell_name")
+    private String cellName;
+
+    @Column(name = "cell_edtn")
+    private String cellEdtn;
+
+    @Column(name = "service_type")
+    private Integer serviceType;
+
 }
-
-

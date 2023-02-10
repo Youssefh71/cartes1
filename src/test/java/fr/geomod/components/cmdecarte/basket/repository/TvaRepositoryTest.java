@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -51,7 +50,6 @@ import fr.geomod.components.cmdecarte.basket.model.entity.Tva;
  * @since 2023
  */
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TvaRepositoryTest {
@@ -67,7 +65,7 @@ public class TvaRepositoryTest {
     private static final float MONTANT = (float) 5.5;
 
     private Tva tva = Tva.builder().dateTva(DATE_TVA).montant(MONTANT).build();
-    
+
     private Tva tvaSave;
 
     @Before
@@ -82,20 +80,22 @@ public class TvaRepositoryTest {
     }
 
     /**
-     * Commit permet
+     * checks if the entity has been saved
      */
     @Test
     @Transactional
-    @Commit
     public void testSave() {
-              
-        tvaSave=   repository.save(tva);
-        
+
+        tvaSave = repository.save(tva);
+
         assertThat(tvaSave.getMontant()).isEqualTo(5.5f);
         assertThat(tvaSave.getDateTva()).isEqualTo(LocalDate.now());
         System.out.println(tvaSave);
     }
 
+    /**
+     * checks if the entity with the given id was found
+     */
     @Test
     @Transactional
     public void findById() {
@@ -104,11 +104,14 @@ public class TvaRepositoryTest {
                 .isEqualTo(Optional.of(tva));
 
     }
-    
+
+    /**
+     * checks if the entity with the given id has been deleted
+     */
     @Test
     @Transactional
     public void deleteById() {
-        
+
         repository.deleteById(tva.getId());
 
         assertThat(repository.findById(tva.getId())).isEmpty();

@@ -40,6 +40,8 @@ import lombok.ToString;
  * @since 2023
  */
 
+
+
 @Getter
 @Setter
 @ToString
@@ -59,6 +61,37 @@ public class OrderHeader {
     @ManyToOne
     @JoinColumn(name = "fk_id_order")
     private OrderPanier panier;
+    
+    @Column(name = "ordering_system")
+    private Integer orderingSystem;
+    
+    @Column(name = "order_type")
+    private Integer orderType;
+    
+    @Column(name = "reference_number")
+    private String referenceNumber;
+
+    @Column(name = "distributor_id")
+    private Integer distributorId;
+
+    @Column(name = "distributor_contact ")
+    private String distributorContact ;
+
+    @Column(name = "optional_delivery_email ")
+    private String email ;
+       
+    @Column(name = "user_id")
+    private Integer userId;
+
+    @Column(name = "permit_media ")
+    private String permitMedia  ;
+    
+    @Column(name = "permit_all ")
+    private String permitAll  ;
+
+    @Column(name = "language_code ")
+    private String languageCode ;
+
 
 }
 

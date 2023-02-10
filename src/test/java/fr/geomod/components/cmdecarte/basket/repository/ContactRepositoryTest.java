@@ -30,11 +30,22 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: ContactRepositoryTest.java.</p>
- * <p><B>Copyright </B>: Copyright (c) 2023. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: ContactRepositoryTest.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: ContactRepositoryTest.java.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2023.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: ContactRepositoryTest.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2023
  */
@@ -42,24 +53,24 @@ import jakarta.transaction.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ContactRepositoryTest {
-    
+
     @Autowired
     private ContactRepository repository;
-    
+
     @Autowired
-    private EntityManager em; 
+    private EntityManager em;
 
     private static final String MAIL = "primar-enc@geomod.fr";
-    
+
     private static final String PHONE = "+33(0)2.98.05.55.91";
-    
+
     private Contact contact = Contact.builder().mail(MAIL).phone(PHONE).build();
-    
+
     private Contact contactSave;
-    
+
     @Before
     public void setUp() throws Exception {
-        
+
         em.persist(contact);
     }
 
@@ -67,35 +78,44 @@ public class ContactRepositoryTest {
     public void tearDown() throws Exception {
     }
 
+    /**
+     * checks if the entity has been saved
+     */
     @Test
     @Transactional
     public void testSave() {
-        
+
         contactSave = repository.save(contact);
-        
+
         assertThat(contactSave.getMail()).isEqualTo("primar-enc@geomod.fr");
         assertThat(contactSave.getPhone()).isEqualTo("+33(0)2.98.05.55.91");
         assertThat(contactSave.getMail()).isNotEqualTo("primar-enc@geomod");
         assertThat(contactSave.getPhone()).isNotEqualTo("+33()2.98.05.55.91");
     }
-    
+
+    /**
+     * checks if the entity with the given id was found
+     */
     @Test
     @Transactional
     public void testFindById() {
-        
+
         contactSave = repository.save(contact);
 
         assertThat(repository.findById(contact.getId()))
                 .isEqualTo(Optional.of(contact));
 
     }
-    
+
+    /**
+     * checks if the entity with the given id has been deleted
+     */
     @Test
     @Transactional
     public void testDeleteById() {
-        
+
         contactSave = repository.save(contact);
-        
+
         repository.deleteById(contact.getId());
 
         assertThat(repository.findById(contact.getId())).isEmpty();
@@ -103,5 +123,3 @@ public class ContactRepositoryTest {
     }
 
 }
-
-

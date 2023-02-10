@@ -32,11 +32,22 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: MarkupRepositoryTest.java.</p>
- * <p><B>Copyright </B>: Copyright (c) 2023. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: MarkupRepositoryTest.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: MarkupRepositoryTest.java.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2023.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: MarkupRepositoryTest.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2023
  */
@@ -44,19 +55,20 @@ import jakarta.transaction.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MarkupRepositoryTest {
-    
+
     @Autowired
     private MarkupRepository repository;
 
     @Autowired
     private EntityManager em;
-    
+
     private static final LocalDate DATE_MARKUP = LocalDate.now();
 
     private static final float MONTANT = (float) 150;
 
-    private Markup markup = Markup.builder().dateMarkup(DATE_MARKUP).montant(MONTANT).build();
-    
+    private Markup markup = Markup.builder().dateMarkup(DATE_MARKUP)
+            .montant(MONTANT).build();
+
     private Markup markupSave;
 
     @Before
@@ -67,19 +79,28 @@ public class MarkupRepositoryTest {
     @After
     public void tearDown() throws Exception {
     }
-    
+
+    /**
+     * checks if the entity has been saved
+     */
     @Test
     @Transactional
+    /**
+     * Commit is a test annotation that is used to save in de bdd
+     */
     @Commit
     public void testSave() {
-              
-        markupSave=   repository.save(markup);
-        
+
+        markupSave = repository.save(markup);
+
         assertThat(markupSave.getMontant()).isEqualTo(150f);
         assertThat(markupSave.getDateMarkup()).isEqualTo(LocalDate.now());
 
     }
 
+    /**
+     * checks if the entity with the given id was found
+     */
     @Test
     @Transactional
     public void findById() {
@@ -88,11 +109,14 @@ public class MarkupRepositoryTest {
                 .isEqualTo(Optional.of(markup));
 
     }
-    
+
+    /**
+     * checks if the entity with the given id has been deleted
+     */
     @Test
     @Transactional
     public void deleteById() {
-        
+
         repository.deleteById(markup.getId());
 
         assertThat(repository.findById(markup.getId())).isEmpty();
@@ -100,5 +124,3 @@ public class MarkupRepositoryTest {
     }
 
 }
-
-

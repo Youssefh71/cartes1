@@ -1,5 +1,5 @@
 /*
- * @(#)BanqueRepositoryTest.java
+ * @(#)OrderHeaderRepositoryTest.java
  *
  * Copyright (c) 2023 GEOMOD SA. All rights reserved.
  * GEOMOD PROPRIETARY/CONFIDENTIAL.  Use is subject to license terms.
@@ -15,7 +15,6 @@ package fr.geomod.components.cmdecarte.basket.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.After;
@@ -26,51 +25,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import fr.geomod.components.cmdecarte.basket.model.entity.Banque;
+import fr.geomod.components.cmdecarte.basket.model.entity.OrderHeader;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 /**
- * <p><B>Title </B>: BanqueRepositoryTest.java.</p>
- * <p><B>Copyright </B>: Copyright (c) 2023. </p>
- * <p><B>Company </B>: GEOMOD</p>
- * <p><B>Filename </B>: BanqueRepositoryTest.java</p>
- * <p><B>Description </B>:  </p>
+ * <p>
+ * <B>Title </B>: OrderHeaderRepositoryTest.java.
+ * </p>
+ * <p>
+ * <B>Copyright </B>: Copyright (c) 2023.
+ * </p>
+ * <p>
+ * <B>Company </B>: GEOMOD
+ * </p>
+ * <p>
+ * <B>Filename </B>: OrderHeaderRepositoryTest.java
+ * </p>
+ * <p>
+ * <B>Description </B>:
+ * </p>
+ * 
  * @author GEOMOD
  * @since 2023
  */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BanqueRepositoryTest {
-    
+public class OrderHeaderRepositoryTest {
     /**
-     * Automatically inject dependencies of BanqueRepository
+     * Automatically inject dependencies of OrderHeaderRepository
      */
     @Autowired
-    private BanqueRepository repository;
-    
-    
+    private OrderHeaderRepository repository;
+
     /**
      * Automatically inject dependencies of EntityManager
      */
     @Autowired
     private EntityManager em;
-    
-    private static final LocalDate DATE_Banque = LocalDate.now();
-    private static final String NAME = "BNP Paribas";
-    private static final String IBAN = "FR76.3000.4001.6500.0100.3001.538";
-    private static final String BIC = "BNPAFRPPVBE";
-    
-    private Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
-    
-    private Banque banqueSave;
+
+    private static final Integer ORDERING_SYSTEM = 1;
+
+    private static final String LANGUAGE_CODE = "en";
+
+    private OrderHeader orderHeader = OrderHeader.builder()
+            .orderingSystem(ORDERING_SYSTEM).languageCode(LANGUAGE_CODE)
+            .build();
+
+    private OrderHeader orderHeaderSave;
 
     @Before
     public void setUp() throws Exception {
-        
-        em.persist(banque);
-        
+
+        em.persist(orderHeader);
     }
 
     @After
@@ -83,44 +90,39 @@ public class BanqueRepositoryTest {
     @Test
     @Transactional
     public void testSave() {
-        banqueSave = repository.save(banque);
-        
-        assertThat(banqueSave.getBic()).isEqualTo("BNPAFRPPVBE");
-        assertThat(banqueSave.getIban()).isEqualTo("FR76.3000.4001.6500.0100.3001.538");
-        assertThat(banqueSave.getName()).isEqualTo("BNP Paribas");
-        assertThat(banqueSave.getDateBanque()).isEqualTo(LocalDate.now());
+        orderHeaderSave = repository.save(orderHeader);
+
+        assertThat(orderHeaderSave.getId()).isNotNull();
+
     }
-    
+
     /**
      * checks if the entity with the given id was found
      */
     @Test
     @Transactional
     public void testFindById() {
-        
-        banqueSave = repository.save(banque);
 
-        assertThat(repository.findById(banqueSave.getId()))
-                .isEqualTo(Optional.of(banque));
+        orderHeaderSave = repository.save(orderHeader);
+
+        assertThat(repository.findById(orderHeaderSave.getId()))
+                .isEqualTo(Optional.of(orderHeader));
 
     }
-    
+
     /**
      * checks if the entity with the given id has been deleted
      */
     @Test
     @Transactional
     public void testDeleteById() {
-        
-        banqueSave = repository.save(banque);
-        
-        repository.deleteById(banqueSave.getId());
 
-        assertThat(repository.findById(banqueSave.getId())).isEmpty();
+        orderHeaderSave = repository.save(orderHeader);
+
+        repository.deleteById(orderHeaderSave.getId());
+
+        assertThat(repository.findById(orderHeaderSave.getId())).isEmpty();
 
     }
 
-
 }
-
-
