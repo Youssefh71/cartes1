@@ -13,14 +13,10 @@
  */
 package fr.geomod.components.cmdecarte.pdf;
 
+import fr.geomod.components.cmdecarte.database.service.PdfGenerationService;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Client;
-import fr.geomod.components.cmdecarte.database.model.entity.Devis;
 
 /**
  * <p><B>Title </B>: PdfCreate.java.</p>
@@ -33,18 +29,19 @@ import fr.geomod.components.cmdecarte.database.model.entity.Devis;
  */
 
 public class PdfCreate {
-    
+
 public static final String SRC = "./src/main/resources/pdf/model.pdf";
     
     public static final String DEST = "./data_pdf/test.pdf";
 
+
     public static void main(String[] args) throws IOException {
         File file = new File(DEST);
         file.getParentFile().mkdirs();
-        new PDFExport().createPdf(SRC, DEST);
+        new PDFExport().createPdf(SRC,DEST);
 
     }
-
+    
 }
 
 

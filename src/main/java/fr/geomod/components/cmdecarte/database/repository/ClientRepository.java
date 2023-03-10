@@ -45,7 +45,7 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 
     Client findByNameContaining(String name);
     
-    @Query(value = "SELECT c.name FROM client c JOIN devis d ON c.id_client = d.fk_id_client WHERE d.numero LIKE '%';", nativeQuery = true)
+    @Query(value = "SELECT client.name FROM client client, devis devis WHERE devis.fk_id_client = client.id_client;", nativeQuery = true)
     Client findByDevis(String numero);
 
 }

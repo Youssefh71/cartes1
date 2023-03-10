@@ -70,7 +70,6 @@ CREATE TABLE IF NOT EXISTS devis
     validity INT NOT NULL,
     titre VARCHAR(255) NOT NULL,
     date_devis DATE NOT NULL
-
 );
 
 -- table de référence userPermit

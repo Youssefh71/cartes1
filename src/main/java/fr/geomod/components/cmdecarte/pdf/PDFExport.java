@@ -22,6 +22,7 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
 
 /**
  * <p>
@@ -71,56 +72,50 @@ public class PDFExport {
         PdfDocument pdfDoc = new PdfDocument(new PdfReader(src),
                 new PdfWriter(dest));
 
-        // Creating a Document
-        // Instantiating a document object from pdf document
-        // object
-        try (Document document = new Document(pdfDoc)) {
+        Document document = new Document(pdfDoc);
 
-            // Add Quote
-            document.add(new Paragraph("2022-Z-549")
-                    .setFixedPosition(95, 698, 60).setFontSize(10));
+        // Add Quote
+        document.add(new Paragraph("2022-Z-549").setFixedPosition(95, 698, 60)
+                .setFontSize(10).setBold());
 
-            // Add Date
-            document.add(new Paragraph(now.format(dateNow.getTime()))
-                    .setFixedPosition(95, 683, 60).setFontSize(10));
+        // Add Date
+        document.add(new Paragraph(now.format(dateNow.getTime()))
+                .setFixedPosition(95, 683, 60).setFontSize(10));
 
-            // Add Validity
-            document.add(new Paragraph(Validity + " jours")
-                    .setFixedPosition(95, 669, 60).setFontSize(10));
+        // Add Validity
+        document.add(new Paragraph(Validity + " jours")
+                .setFixedPosition(95, 669, 60).setFontSize(10));
 
-            // Add Validity - Deadline
-            document.add(new Paragraph(sdf.format(echeance.getTime()))
-                    .setFixedPosition(95, 655, 60).setFontSize(10));
+        // Add Validity - Deadline
+        document.add(new Paragraph(sdf.format(echeance.getTime()))
+                .setFixedPosition(95, 655, 60).setFontSize(10));
 
-            if ( "fr".equalsIgnoreCase(clientTest)) {
+        if ("fr".equalsIgnoreCase(clientTest)) {
 
-                // Add customer adresse
-                document.add(new Paragraph("BAI SA \n Service Comptabilité \nBP 84 \n 29688 ROSCOFF cedex")
-                        .setFixedPosition(320, 640, 200).setFontSize(10));
+            // Add customer adresse
 
-//                // Add customer address1
-//                document.add(new Paragraph("Service Comptabilité")
-//                        .setFixedPosition(320, 665, 100).setFontSize(10));
-//
-//                // Add customer address2
-//                document.add(new Paragraph("BP 84 ")
-//                        .setFixedPosition(320, 600, 150).setFontSize(10));
+            Text name = new Text("BAI SA").setFontSize(10).setBold();
+            Text adresse = new Text(
+                    "\n Service Comptabilité \nBP 84 \n 29688 ROSCOFF cedex")
+                            .setFontSize(10);
+            Paragraph p = new Paragraph().add(name).add(adresse)
+                    .setFixedPosition(320, 638, 200);
+            document.add(p);
 
-//                // Add customer city and zipcode
-//                document.add(new Paragraph("29688 ROSCOFF cedex")
-//                        .setFixedPosition(320, 635, 200).setFontSize(10));
+        } else {
 
-            }else {
- 
-                document.add(new Paragraph("OceanWise Ltd \n Dovedale House \n 16 Butts Road \n Alton \n GU34 1 NB Hampshire \n United Kingdom")
-                        .setFixedPosition(320, 605, 200).setFontSize(10));
-                
-            }
+            // Add customer adresse
+            Text name = new Text("Ocean Wise Ltd").setFontSize(10).setBold();
+            Text adresse = new Text(
+                    "\n Dovedale House \n 16 Butts Road \n Alton \n GU34 1 NB Hampshire \n United Kingdom")
+                            .setFontSize(10);
+            Paragraph p = new Paragraph().add(name).add(adresse)
+                    .setFixedPosition(320, 605, 200);
+            document.add(p);
 
-            
         }
 
-        pdfDoc.close();
+        document.close();
 
     }
 
