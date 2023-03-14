@@ -55,11 +55,6 @@ public class Tva {
 
     private LocalDate dateTva;
 
-    /**
-     * @param id
-     * @param montant
-     * @param dateTva
-     */
     public Tva(Long id, float montant, LocalDate dateTva) {
         super();
         this.id = id;
@@ -150,10 +145,9 @@ public class Tva {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Tva)) {
+        if (!(obj instanceof Tva other)) {
             return false;
         }
-        Tva other = (Tva) obj;
         return Objects.equals(dateTva, other.dateTva)
                 && Objects.equals(id, other.id)
                 && Objects.equals(montant, other.montant);

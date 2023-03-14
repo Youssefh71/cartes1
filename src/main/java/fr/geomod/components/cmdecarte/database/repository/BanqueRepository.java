@@ -31,6 +31,7 @@ import fr.geomod.components.cmdecarte.database.model.entity.Banque;
 @Repository
 public interface BanqueRepository  extends CrudRepository<Banque, Long>{
 
+
 }
 
 

@@ -16,14 +16,9 @@ package fr.geomod.components.cmdecarte.database.model.entity;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.ToString;
 
 /**
  * <p>
@@ -47,6 +42,7 @@ import lombok.Builder;
  */
 
 @Builder
+@ToString
 @Entity
 @Table(name = "client")
 public class Client {
@@ -78,18 +74,7 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<OrderPanier> paniers;
     
-    /**
-     * @param id
-     * @param name
-     * @param adresse
-     * @param adresse2
-     * @param ville
-     * @param zipCode
-     * @param pays
-     * @param licensee
-     * @param devis
-     * @param paniers
-     */
+
     public Client(Long id, String name, String adresse, String adresse2,
             String ville, String zipCode, String pays, List<Licensee> licensee,
             List<Devis> devis, List<OrderPanier> paniers) {
@@ -274,17 +259,7 @@ public class Client {
                 && Objects.equals(zipCode, other.zipCode);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Client [id=" + id + ", name=" + name + ", adresse=" + adresse
-                + ", adresse2=" + adresse2 + ", ville=" + ville + ", zipCode="
-                + zipCode + ", pays=" + pays + ", licensee=" + licensee
-                + ", devis=" + devis + "]";
-    }
+
 
 
     /**

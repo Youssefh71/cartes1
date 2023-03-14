@@ -52,13 +52,7 @@ public class Banque {
     
     private LocalDate dateBanque;
 
-    /**
-     * @param id
-     * @param name
-     * @param iban
-     * @param bic
-     * @param dateBanque
-     */
+
     public Banque(Long id, String name, String iban, String bic,
             LocalDate dateBanque) {
         super();

@@ -59,15 +59,7 @@ public class Devis {
     @JoinColumn(name = "fk_id_client")
     private Client client;
 
-    /**
-     * @param id
-     * @param numero
-     * @param validity
-     * @param titre
-     * @param dateDevis
-     * @param datedevis2
-     * @param client
-     */
+
     public Devis(Long id, String numero, Integer validity, String titre,
             LocalDate dateDevis, Client client) {
         super();
@@ -189,10 +181,9 @@ public class Devis {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Devis)) {
+        if (!(obj instanceof Devis other)) {
             return false;
         }
-        Devis other = (Devis) obj;
         return Objects.equals(client, other.client)
                 && Objects.equals(dateDevis, other.dateDevis)
                 && Objects.equals(id, other.id)

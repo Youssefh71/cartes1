@@ -53,12 +53,7 @@ public class UserPermit {
     @JoinColumn(name = "fk_id_licensee")
     private Licensee licensee;
 
-    /**
-     * @param id
-     * @param name
-     * @param numero
-     * @param licensee
-     */
+
     public UserPermit(Long id, String name, String numero, Licensee licensee) {
         super();
         this.id = id;
@@ -148,10 +143,9 @@ public class UserPermit {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof UserPermit)) {
+        if (!(obj instanceof UserPermit other)) {
             return false;
         }
-        UserPermit other = (UserPermit) obj;
         return Objects.equals(id, other.id)
                 && Objects.equals(licensee, other.licensee)
                 && Objects.equals(name, other.name)

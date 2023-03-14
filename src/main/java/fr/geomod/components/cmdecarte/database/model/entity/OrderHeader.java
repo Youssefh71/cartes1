@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,7 +46,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
-@EqualsAndHashCode
 @Builder
 @Entity
 @Table(name = "order_header")
@@ -74,22 +72,22 @@ public class OrderHeader {
     @Column(name = "distributor_id")
     private Integer distributorId;
 
-    @Column(name = "distributor_contact ")
+    @Column(name = "distributor_contact")
     private String distributorContact ;
 
-    @Column(name = "optional_delivery_email ")
+    @Column(name = "optional_delivery_email")
     private String email ;
        
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "permit_media ")
+    @Column(name = "permit_media")
     private String permitMedia  ;
     
-    @Column(name = "permit_all ")
+    @Column(name = "permit_all")
     private String permitAll  ;
 
-    @Column(name = "language_code ")
+    @Column(name = "language_code")
     private String languageCode ;
 
 

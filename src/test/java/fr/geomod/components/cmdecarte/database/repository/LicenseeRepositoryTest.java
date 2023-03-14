@@ -26,7 +26,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.geomod.components.cmdecarte.database.model.entity.Licensee;
-import fr.geomod.components.cmdecarte.database.repository.LicenseeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 

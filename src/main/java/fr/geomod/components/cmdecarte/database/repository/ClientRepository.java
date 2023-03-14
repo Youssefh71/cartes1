@@ -13,6 +13,9 @@
  */
 package fr.geomod.components.cmdecarte.database.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -44,8 +47,9 @@ import fr.geomod.components.cmdecarte.database.model.entity.Client;
 public interface ClientRepository extends CrudRepository<Client, Long> {
 
     Client findByNameContaining(String name);
-    
+
     @Query(value = "SELECT client.name FROM client client, devis devis WHERE devis.fk_id_client = client.id_client;", nativeQuery = true)
     Client findByDevis(String numero);
+
 
 }

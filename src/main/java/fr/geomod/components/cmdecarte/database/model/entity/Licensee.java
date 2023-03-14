@@ -69,13 +69,7 @@ public class Licensee {
     @OneToMany(mappedBy = "licensee")
     private List<UserPermit> userPermit;
 
-    /**
-     * @param id
-     * @param name
-     * @param francisation
-     * @param client
-     * @param userPermit
-     */
+
     public Licensee(Long id, String name, String francisation, Client client,
             List<UserPermit> userPermit) {
         super();
@@ -181,10 +175,9 @@ public class Licensee {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Licensee)) {
+        if (!(obj instanceof Licensee other)) {
             return false;
         }
-        Licensee other = (Licensee) obj;
         return Objects.equals(client, other.client)
                 && Objects.equals(francisation, other.francisation)
                 && Objects.equals(id, other.id)

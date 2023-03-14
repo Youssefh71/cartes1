@@ -57,11 +57,7 @@ public class Contact {
         super();
     }
 
-    /**
-     * @param id
-     * @param mail
-     * @param phone
-     */
+
     public Contact(Long id, String mail, String phone) {
         super();
         this.id = id;
@@ -129,10 +125,9 @@ public class Contact {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Contact)) {
+        if (!(obj instanceof Contact other)) {
             return false;
         }
-        Contact other = (Contact) obj;
         return Objects.equals(id, other.id) && Objects.equals(mail, other.mail)
                 && Objects.equals(phone, other.phone);
     }

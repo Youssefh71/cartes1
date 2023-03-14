@@ -51,11 +51,7 @@ public class Conversion {
         super();
     }
 
-    /**
-     * @param id
-     * @param taux
-     * @param dateConversion
-     */
+
     public Conversion(Long id, float taux, LocalDate dateConversion) {
         super();
         this.id = id;
@@ -124,10 +120,9 @@ public class Conversion {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Conversion)) {
+        if (!(obj instanceof Conversion other)) {
             return false;
         }
-        Conversion other = (Conversion) obj;
         return Objects.equals(dateConversion, other.dateConversion)
                 && Objects.equals(id, other.id)
                 && Objects.equals(taux, other.taux);

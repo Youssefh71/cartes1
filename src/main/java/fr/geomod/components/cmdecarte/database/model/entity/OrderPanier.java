@@ -32,7 +32,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * <p><B>Title </B>: OrderPanier.java.</p>
@@ -46,10 +45,8 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
-@EqualsAndHashCode
 @Builder
 @Entity
 @Table(name = "order_panier")
@@ -72,6 +69,13 @@ public class OrderPanier {
     @JoinColumn(name = "fk_id_client")
     private Client client;
 
+    @Override
+    public String toString() {
+        return "OrderPanier{" +
+                "id=" + id +
+                ", client=" + client +
+                '}';
+    }
 }
 
 

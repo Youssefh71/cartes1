@@ -62,7 +62,7 @@ public class BanqueRepositoryTest {
     private static final String IBAN = "FR76.3000.4001.6500.0100.3001.538";
     private static final String BIC = "BNPAFRPPVBE";
     
-    private Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
+    private final Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
     
     private Banque banqueSave;
 

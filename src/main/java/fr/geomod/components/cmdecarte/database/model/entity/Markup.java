@@ -57,11 +57,7 @@ public class Markup {
         super();
     }
 
-    /**
-     * @param id
-     * @param montant
-     * @param dateMarkup
-     */
+
     public Markup(Long id, float montant, LocalDate dateMarkup) {
         super();
         this.id = id;
@@ -130,10 +126,9 @@ public class Markup {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Markup)) {
+        if (!(obj instanceof Markup other)) {
             return false;
         }
-        Markup other = (Markup) obj;
         return Objects.equals(dateMarkup, other.dateMarkup)
                 && Objects.equals(id, other.id)
                 && Float.floatToIntBits(montant) == Float
