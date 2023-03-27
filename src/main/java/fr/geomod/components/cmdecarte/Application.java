@@ -7,6 +7,7 @@ import fr.geomod.components.cmdecarte.persistence.repository.BanqueRepository;
 import fr.geomod.components.cmdecarte.persistence.repository.ClientRepository;
 import fr.geomod.components.cmdecarte.persistence.repository.ContactRepository;
 import fr.geomod.components.cmdecarte.persistence.repository.DevisRepository;
+import fr.geomod.components.cmdecarte.persistence.repository.TvaRepository;
 import fr.geomod.components.cmdecarte.persistence.repository.UserPermitRepository;
 import fr.geomod.components.cmdecarte.service.PdfGenerationService;
 import org.springframework.boot.CommandLineRunner;
@@ -23,17 +24,20 @@ public class Application {
     private final ContactRepository contactRepository;
     private final BanqueRepository banqueRepository;
     private final ClientRepository clientRepository;
-
     private final UserPermitRepository userPermitRepository;
+    private final TvaRepository tvaRepository;
 
     public Application(DevisRepository devisRepository,
                        ContactRepository contactRepository,
-                       BanqueRepository banqueRepository, ClientRepository clientRepository, UserPermitRepository userPermitRepository) {
+                       BanqueRepository banqueRepository, ClientRepository clientRepository,
+                       UserPermitRepository userPermitRepository, TvaRepository tvaRepository)
+    {
         this.devisRepository = devisRepository;
         this.contactRepository = contactRepository;
         this.banqueRepository = banqueRepository;
         this.clientRepository = clientRepository;
         this.userPermitRepository = userPermitRepository;
+        this.tvaRepository = tvaRepository;
     }
 
     public static void main(String[] args) {
@@ -57,7 +61,8 @@ public class Application {
             Optional<Contact> contact = contactRepository.findById(1L);
             Optional<Banque> banque = banqueRepository.findById(1L);
             Optional<UserPermit> userPermit = userPermitRepository.findById(1L);
-            pdf.createPdf(client, dest, devis, contact, banque, basket, userPermit);
+            Optional<Tva> tva = tvaRepository.findById(1L);
+            pdf.createPdf(client, dest, devis, contact, banque, basket, userPermit, tva);
         };
     }
 }
