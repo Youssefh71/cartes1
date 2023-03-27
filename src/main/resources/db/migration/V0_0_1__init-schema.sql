@@ -46,12 +46,18 @@ CREATE TABLE IF NOT EXISTS contact
 CREATE TABLE IF NOT EXISTS client
 (
     id_client BIGSERIAL PRIMARY KEY ,
+    langue VARCHAR(5) NOT NULL,
+    destinataire VARCHAR(100),
     name VARCHAR(100)   NOT NULL,
     adresse VARCHAR(255)   NOT NULL,
-    adresse2 VARCHAR(255)   NOT NULL,
+    adresse2 VARCHAR(255),
+    adresse3 VARCHAR(255),
     ville  VARCHAR(100)   NOT NULL,
+    boite_postal VARCHAR(100),
+    cedex VARCHAR(50),
+    cs VARCHAR(50),
     zip_code VARCHAR(100)   NOT NULL,
-    pays VARCHAR(100)
+    pays VARCHAR(100) NOT NULL
 );
 
 -- table de référence licensee

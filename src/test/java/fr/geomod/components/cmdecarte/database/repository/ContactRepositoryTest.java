@@ -17,17 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Contact;
-import fr.geomod.components.cmdecarte.database.repository.ContactRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Contact;
+import fr.geomod.components.cmdecarte.persistence.repository.ContactRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -51,31 +47,20 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class ContactRepositoryTest {
-
     @Autowired
     private ContactRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final String MAIL = "primar-enc@geomod.fr";
-
     private static final String PHONE = "+33(0)2.98.05.55.91";
-
     private Contact contact = Contact.builder().mail(MAIL).phone(PHONE).build();
-
     private Contact contactSave;
-
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-
-        em.persist(contact);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -100,12 +85,10 @@ public class ContactRepositoryTest {
     @Test
     @Transactional
     public void testFindById() {
-
         contactSave = repository.save(contact);
 
         assertThat(repository.findById(contact.getId()))
                 .isEqualTo(Optional.of(contact));
-
     }
 
     /**
@@ -120,7 +103,5 @@ public class ContactRepositoryTest {
         repository.deleteById(contact.getId());
 
         assertThat(repository.findById(contact.getId())).isEmpty();
-
     }
-
 }

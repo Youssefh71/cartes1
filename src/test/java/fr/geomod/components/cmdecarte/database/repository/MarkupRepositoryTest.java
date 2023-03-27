@@ -18,18 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Markup;
-import fr.geomod.components.cmdecarte.database.repository.MarkupRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Markup;
+import fr.geomod.components.cmdecarte.persistence.repository.MarkupRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -48,36 +45,26 @@ import jakarta.transaction.Transactional;
  * <p>
  * <B>Description </B>:
  * </p>
- * 
+ *
  * @author GEOMOD
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class MarkupRepositoryTest {
-
     @Autowired
     private MarkupRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final LocalDate DATE_MARKUP = LocalDate.now();
-
     private static final float MONTANT = (float) 150;
-
     private Markup markup = Markup.builder().dateMarkup(DATE_MARKUP)
             .montant(MONTANT).build();
-
     private Markup markupSave;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        em.persist(markup);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -96,7 +83,6 @@ public class MarkupRepositoryTest {
 
         assertThat(markupSave.getMontant()).isEqualTo(150f);
         assertThat(markupSave.getDateMarkup()).isEqualTo(LocalDate.now());
-
     }
 
     /**
@@ -105,10 +91,9 @@ public class MarkupRepositoryTest {
     @Test
     @Transactional
     public void findById() {
-
+        markupSave = repository.save(markup);
         assertThat(repository.findById(markup.getId()))
                 .isEqualTo(Optional.of(markup));
-
     }
 
     /**
@@ -117,11 +102,10 @@ public class MarkupRepositoryTest {
     @Test
     @Transactional
     public void deleteById() {
+        markupSave = repository.save(markup);
 
         repository.deleteById(markup.getId());
 
         assertThat(repository.findById(markup.getId())).isEmpty();
-
     }
-
 }

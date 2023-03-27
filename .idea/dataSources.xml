@@ -8,14 +8,5 @@
       <jdbc-url>jdbc:postgresql://gmdvcmdcartdev1.lyon-dev2.local:5432/cmdecarte_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="commandecartes/Hibernate" uuid="7c6321fa-4222-45a6-9305-6de8d3a16cbc">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>Hibernate</remarks>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://gmdvcmdcartdev1.lyon-dev2.local:5432/cmdecarte_db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>

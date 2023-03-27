@@ -17,17 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.UserPermit;
-import fr.geomod.components.cmdecarte.database.repository.UserPermitRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.UserPermit;
+import fr.geomod.components.cmdecarte.persistence.repository.UserPermitRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -46,37 +40,21 @@ import jakarta.transaction.Transactional;
  * <p>
  * <B>Description </B>:
  * </p>
- * 
+ *
  * @author GEOMOD
  * @since 2023
  */
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class UserPermitRepositoryTest {
 
     @Autowired
     private UserPermitRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final String NAME = "GECDIS 50";
     private static final String NUMERO = "(43E57713A647056EC52652BA3833)";
-
-    private UserPermit userPermit = UserPermit.builder().name(NAME)
+    private static final UserPermit userPermit = UserPermit.builder().name(NAME)
             .numero(NUMERO).build();
-
     private UserPermit userPermitSave;
-
-    @Before
-    public void setUp() throws Exception {
-        em.persist(userPermit);
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     /**
      * checks if the entity has been saved
@@ -90,9 +68,8 @@ public class UserPermitRepositoryTest {
         assertThat(userPermitSave.getName()).isEqualTo("GECDIS 50");
         assertThat(userPermitSave.getNumero())
                 .isEqualTo("(43E57713A647056EC52652BA3833)");
-
     }
-    
+
     /**
      * checks if the entity with the given id was found
      */
@@ -102,9 +79,8 @@ public class UserPermitRepositoryTest {
 
         userPermitSave = repository.save(userPermit);
 
-        assertThat( repository.findById(userPermit.getId()))
+        assertThat(repository.findById(userPermit.getId()))
                 .isEqualTo(Optional.of(userPermit));
-
     }
 
     /**
@@ -119,7 +95,5 @@ public class UserPermitRepositoryTest {
         repository.deleteById(userPermitSave.getId());
 
         assertThat(repository.findById(userPermitSave.getId())).isEmpty();
-
     }
-
 }

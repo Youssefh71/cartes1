@@ -17,16 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import fr.geomod.components.cmdecarte.persistence.repository.LicenseeRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Licensee;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Licensee;
 import jakarta.transaction.Transactional;
 
 /**
@@ -50,30 +47,20 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class LicenseeRepositoryTest {
 
     @Autowired
     private LicenseeRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final String NAME = "BRETAGNE";
-
     private Licensee licensee = Licensee.builder().name(NAME).build();
-
     private Licensee licenseeSave;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-
-        em.persist(licensee);
-
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -100,7 +87,6 @@ public class LicenseeRepositoryTest {
 
         assertThat(repository.findById(licenseeSave.getId()))
                 .isEqualTo(Optional.of(licensee));
-
     }
 
     /**
@@ -115,7 +101,5 @@ public class LicenseeRepositoryTest {
         repository.deleteById(licenseeSave.getId());
 
         assertThat(repository.findById(licenseeSave.getId())).isEmpty();
-
     }
-
 }

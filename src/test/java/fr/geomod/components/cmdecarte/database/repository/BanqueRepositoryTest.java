@@ -18,16 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import fr.geomod.components.cmdecarte.persistence.repository.BanqueRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Banque;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Banque;
 import jakarta.transaction.Transactional;
 
 /**
@@ -40,7 +38,7 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class BanqueRepositoryTest {
     
@@ -49,31 +47,19 @@ public class BanqueRepositoryTest {
      */
     @Autowired
     private BanqueRepository repository;
-    
-    
-    /**
-     * Automatically inject dependencies of EntityManager
-     */
-    @Autowired
-    private EntityManager em;
-    
     private static final LocalDate DATE_Banque = LocalDate.now();
     private static final String NAME = "BNP Paribas";
     private static final String IBAN = "FR76.3000.4001.6500.0100.3001.538";
     private static final String BIC = "BNPAFRPPVBE";
-    
     private final Banque banque = Banque.builder().name(NAME).iban(IBAN).bic(BIC).dateBanque(DATE_Banque).build();
     
     private Banque banqueSave;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        
-        em.persist(banque);
-        
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -102,7 +88,6 @@ public class BanqueRepositoryTest {
 
         assertThat(repository.findById(banqueSave.getId()))
                 .isEqualTo(Optional.of(banque));
-
     }
     
     /**
@@ -117,9 +102,7 @@ public class BanqueRepositoryTest {
         repository.deleteById(banqueSave.getId());
 
         assertThat(repository.findById(banqueSave.getId())).isEmpty();
-
     }
-
 
 }
 

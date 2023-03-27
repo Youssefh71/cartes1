@@ -18,17 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Conversion;
-import fr.geomod.components.cmdecarte.database.repository.ConversionRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Conversion;
+import fr.geomod.components.cmdecarte.persistence.repository.ConversionRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -51,32 +47,22 @@ import jakarta.transaction.Transactional;
  * @author GEOMOD
  * @since 2023
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ConversionRepositoryTest {
 
     @Autowired
     private ConversionRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final LocalDate DATE_CONVERSION = LocalDate.now();
-
     private static final float TAUX = (float) 1.1;
-
     private Conversion taux = Conversion.builder()
             .dateConversion(DATE_CONVERSION).taux(TAUX).build();
-
     private Conversion conversionSave;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        em.persist(taux);
-
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -92,7 +78,6 @@ public class ConversionRepositoryTest {
         assertThat(conversionSave.getTaux()).isEqualTo(1.1f);
         assertThat(conversionSave.getDateConversion())
                 .isEqualTo(LocalDate.now());
-
     }
 
     /**
@@ -106,7 +91,6 @@ public class ConversionRepositoryTest {
 
         assertThat(repository.findById(taux.getId()))
                 .isEqualTo(Optional.of(taux));
-
     }
 
     /**
@@ -121,7 +105,5 @@ public class ConversionRepositoryTest {
         repository.deleteById(taux.getId());
 
         assertThat(repository.findById(taux.getId())).isEmpty();
-
     }
-
 }

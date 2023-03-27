@@ -3,13 +3,8 @@
  */
 package fr.geomod.components.cmdecarte.basket.model;
 
-import static org.junit.Assert.*;
-
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketCellImpl;
 
 /**
@@ -18,24 +13,7 @@ import fr.geomod.components.cmdecarte.basket.model.impl.BasketCellImpl;
  */
 public class BasketCellTest {
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-	
-	
-	/**
-	 * 
-	 */
 	@Test
 	public void test() {
 		final String idRef = "Toto";

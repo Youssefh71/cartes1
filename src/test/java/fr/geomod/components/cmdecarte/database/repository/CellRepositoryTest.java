@@ -17,17 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Cell;
-import fr.geomod.components.cmdecarte.database.repository.CellRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Cell;
+import fr.geomod.components.cmdecarte.persistence.repository.CellRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -40,7 +36,7 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class CellRepositoryTest {
     /**
@@ -48,28 +44,14 @@ public class CellRepositoryTest {
      */
     @Autowired
     private CellRepository repository;
-
-    /**
-     * Automatically inject dependencies of EntityManager
-     */
-    @Autowired
-    private EntityManager em;
-    
     private static final String  NAME = "GB30364";
-
     private static final Integer SERVICE_TYPE= 1;
-    
     private Cell cell = Cell.builder().cellName(NAME).cellEdtn(null).serviceType(SERVICE_TYPE).build();
-
     private Cell cellSave;
+    @BeforeEach
+    public void setUp() throws Exception {}
 
-    @Before
-    public void setUp() throws Exception {
-
-        em.persist(cell);
-    }
-
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -80,9 +62,7 @@ public class CellRepositoryTest {
     @Transactional
     public void testSave() {
         cellSave= repository.save(cell);
-
         assertThat(cellSave.getId()).isNotNull();
-
     }
 
     /**
@@ -93,10 +73,8 @@ public class CellRepositoryTest {
     public void testFindById() {
 
         cellSave= repository.save(cell);
-
         assertThat(repository.findById(cellSave.getId()))
                 .isEqualTo(Optional.of(cell));
-
     }
 
     /**
@@ -111,10 +89,7 @@ public class CellRepositoryTest {
         repository.deleteById(cellSave.getId());
 
         assertThat(repository.findById(cellSave.getId())).isEmpty();
-
     }
-
-
 }
 
 

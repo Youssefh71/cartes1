@@ -17,17 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.OrderHeader;
-import fr.geomod.components.cmdecarte.database.repository.OrderHeaderRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.OrderHeader;
+import fr.geomod.components.cmdecarte.persistence.repository.OrderHeaderRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -50,7 +44,6 @@ import jakarta.transaction.Transactional;
  * @author GEOMOD
  * @since 2023
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderHeaderRepositoryTest {
     /**
@@ -59,31 +52,12 @@ public class OrderHeaderRepositoryTest {
     @Autowired
     private OrderHeaderRepository repository;
 
-    /**
-     * Automatically inject dependencies of EntityManager
-     */
-    @Autowired
-    private EntityManager em;
-
     private static final Integer ORDERING_SYSTEM = 1;
-
     private static final String LANGUAGE_CODE = "en";
-
     private OrderHeader orderHeader = OrderHeader.builder()
             .orderingSystem(ORDERING_SYSTEM).languageCode(LANGUAGE_CODE)
             .build();
-
     private OrderHeader orderHeaderSave;
-
-    @Before
-    public void setUp() throws Exception {
-
-        em.persist(orderHeader);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     /**
      * checks if the entity has been saved
@@ -94,7 +68,6 @@ public class OrderHeaderRepositoryTest {
         orderHeaderSave = repository.save(orderHeader);
 
         assertThat(orderHeaderSave.getId()).isNotNull();
-
     }
 
     /**
@@ -108,7 +81,6 @@ public class OrderHeaderRepositoryTest {
 
         assertThat(repository.findById(orderHeaderSave.getId()))
                 .isEqualTo(Optional.of(orderHeader));
-
     }
 
     /**
@@ -123,7 +95,6 @@ public class OrderHeaderRepositoryTest {
         repository.deleteById(orderHeaderSave.getId());
 
         assertThat(repository.findById(orderHeaderSave.getId())).isEmpty();
-
     }
 
 }

@@ -15,18 +15,11 @@ package fr.geomod.components.cmdecarte.database.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Optional;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.OrderPanier;
-import fr.geomod.components.cmdecarte.database.repository.OrderPanierRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.OrderPanier;
+import fr.geomod.components.cmdecarte.persistence.repository.OrderPanierRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -45,12 +38,12 @@ import jakarta.transaction.Transactional;
  * <p>
  * <B>Description </B>:
  * </p>
- * 
+ *
  * @author GEOMOD
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class OrderPanierRepositoryTest {
 
@@ -59,26 +52,8 @@ public class OrderPanierRepositoryTest {
      */
     @Autowired
     private OrderPanierRepository repository;
-
-    /**
-     * Automatically inject dependencies of EntityManager
-     */
-    @Autowired
-    private EntityManager em;
-
     private OrderPanier panier = OrderPanier.builder().build();
-
     private OrderPanier orderPanierSave;
-
-    @Before
-    public void setUp() throws Exception {
-
-        em.persist(panier);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     /**
      * checks if the entity has been saved
@@ -89,7 +64,6 @@ public class OrderPanierRepositoryTest {
         orderPanierSave = repository.save(panier);
 
         assertThat(orderPanierSave.getId()).isNotNull();
-
     }
 
     /**
@@ -103,7 +77,6 @@ public class OrderPanierRepositoryTest {
 
         assertThat(repository.findById(orderPanierSave.getId()))
                 .isEqualTo(Optional.of(panier));
-
     }
 
     /**
@@ -118,7 +91,5 @@ public class OrderPanierRepositoryTest {
         repository.deleteById(orderPanierSave.getId());
 
         assertThat(repository.findById(orderPanierSave.getId())).isEmpty();
-
     }
-
 }

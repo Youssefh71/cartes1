@@ -13,18 +13,7 @@
  */
 package fr.geomod.components.cmdecarte.basket;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import fr.geomod.components.cmdecarte.basket.model.Basket;
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
@@ -32,6 +21,13 @@ import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
 import fr.geomod.components.cmdecarte.basket.model.helper.BasketHelperImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketCellImpl;
 import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * <p>
@@ -49,7 +45,7 @@ import fr.geomod.components.cmdecarte.basket.model.impl.BasketJaxbImpl;
  * <p>
  * <B>Description </B>:
  * </p>
- * 
+ *
  * @author GEOMOD
  * @since 2022
  */
@@ -66,13 +62,15 @@ public class BasketTests {
             + "/basket1_withoutGB303648.xml";
     private static final String BASKET1_WITH_DIFFS = BASKET_DIR
             + "/basket1_GB104209_edt2.xml";
-    /** instance to test */
+    /**
+     * instance to test
+     */
     Basket basket;
 
     /**
      * @throws java.lang.Exception
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // use default jaxb implementation...
         this.basket = new BasketJaxbImpl();
@@ -81,14 +79,14 @@ public class BasketTests {
     /**
      * @throws java.lang.Exception
      */
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.basket = null;
     }
 
     /**
      * Check that a basket from a predefined file contains expected cells
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -96,8 +94,8 @@ public class BasketTests {
         File basket1File = new File(BASKET1);
         this.basket.loadBasket(basket1File);
 
-        final String[] cellIds = { "GB303648", "GB301364", "GB301365",
-                "GB104209", "FR373840", "FR271860" };
+        final String[] cellIds = {"GB303648", "GB301364", "GB301365",
+                "GB104209", "FR373840", "FR271860"};
 
         assertEquals(6, this.basket.getCells().size());
 
@@ -137,7 +135,7 @@ public class BasketTests {
 
     /**
      * Check the creation of a basket from a file
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -146,7 +144,7 @@ public class BasketTests {
         try {
             this.basket.loadBasket(basket1File);
         } catch (Exception e) {
-            fail();
+            fail(e.getMessage());
         }
         assertNotNull(this.basket);
         assertNotNull(this.basket.getCells());
@@ -157,26 +155,18 @@ public class BasketTests {
 
     /**
      * Check the save of a basket
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testBasketSaveToFile() throws Exception {
         // lire un panier
         File basket1File = new File(BASKET1);
-        try {
-            this.basket.loadBasket(basket1File);
-        } catch (Exception e) {
-            fail();
-        }
+        this.basket.loadBasket(basket1File);
 
         // le sauvegarder sous un fichier different,
         File basket2File = new File(BASKET2);
-        try {
-            this.basket.saveBasket(basket2File);
-        } catch (Exception e) {
-            fail();
-        }
+        this.basket.saveBasket(basket2File);
 
         // verifier que le fichier n'est pas vide,
         assertTrue(basket2File.exists());
@@ -221,20 +211,12 @@ public class BasketTests {
 
         // sauvegarder mon panier
         File basket3File = new File(BASKET3);
-        try {
-            this.basket.saveBasket(basket3File);
-        } catch (Exception e) {
-            fail();
-        }
+        this.basket.saveBasket(basket3File);
 
         // relire le fichier xml dans un nouveau panier
         BasketJaxbImpl basketnotequal = new BasketJaxbImpl();
 
-        try {
-            basketnotequal.loadBasket(basket3File);
-        } catch (Exception e) {
-            fail();
-        }
+        basketnotequal.loadBasket(basket3File);
 
         // Verifier que les deux panier on la cellule FR373840 identique mais
         // l'EDNT est différente et simplement celle là.
@@ -267,33 +249,29 @@ public class BasketTests {
         basketPlusCellFile.loadBasket(baskePlusCell);
 
         // check that the basket is not null
-        assertNotNull("BasketReference should not be null", basketReference);
-        assertNotNull("BasketPlusCellFile should not be null",
-                basketPlusCellFile);
+        assertThat(basketReference).isNotNull();
+        assertThat(basketPlusCellFile).isNotNull();
 
         // comparison of the two basket
         BasketComparison result = BasketHelperImpl.compare(basketReference,
                 basketPlusCellFile);
         // check that the variable result is not null
-        assertNotNull("result should not be null", result);
+        assertThat(result).isNotNull();
         // check that getNewcells is not null
-        assertNotNull("No new Cells found", result.getNewCells());
+        assertThat(result.getNewCells()).isNotNull();
         // check that there are no less cells
-        assertNull("deleted cell found", result.getDeletedCells());
+        assertThat(result.getDeletedCells()).isNull();
         // check that there is no different cell
-        assertNull("modified cell found", result.getCellsWithDifferences());
+        assertThat(result.getCellsWithDifferences()).isNull();
 
         // Check that only one cell has been added
-        assertEquals("More than one cell different", 1,
-                result.getNewCells().size());
+        assertThat(result.getNewCells())
+                .hasSize(1);
 
         BasketCell newCell = result.getNewCells().get(0);
 
-        assertEquals("this is not the expected cell", "GB301366",
-                newCell.getCellId());
-
-        assertNull("Should be null",
-                basketReference.getCellById(newCell.getCellId()));
+        assertThat(newCell.getCellId()).isEqualTo("GB301366");
+        assertThat(basketReference.getCellById(newCell.getCellId())).isNull();
 
     }
 
@@ -314,32 +292,28 @@ public class BasketTests {
         basketMinusCellFile.loadBasket(baskeMinusCell);
 
         // check that the basket is not null
-        assertNotNull("BasketReference should not be null", basketReference);
-        assertNotNull("BasketMinusCellFile should not be null",
-                basketMinusCellFile);
+        assertThat(basketReference).isNotNull();
+        assertThat(basketMinusCellFile).isNotNull();
         // comparison of the two basket
         BasketComparison result = BasketHelperImpl.compare(basketReference,
                 basketMinusCellFile);
 
         // check that the variable result is not null
-        assertNotNull("result should not be null", result);
+        assertThat(result).isNotNull();
         // check that getDeletedcells is not null
-        assertNotNull("No deleted cell found", result.getDeletedCells());
+        assertThat(result.getDeletedCells()).isNotNull();
         // check that there are no less cells
-        assertNull("New cell found", result.getNewCells());
+        assertThat(result.getNewCells()).isNull();
         // check that there is no different cell
-        assertNull("modified cell found", result.getCellsWithDifferences());
+        assertThat(result.getCellsWithDifferences()).isNull();
 
         // Check that only one cell has been deleted
-        assertEquals("More than one cell has been deleted", 1,
-                result.getDeletedCells().size());
-
+        assertThat(result.getDeletedCells()).hasSize(1);
         BasketCell deletedCell = result.getDeletedCells().get(0);
 
-        assertEquals("this is not the expected cell", "GB303648",
-                deletedCell.getCellId());
-        assertNull("Should be null",
-                basketMinusCellFile.getCellById("GB303648"));
+        assertThat(deletedCell.getCellId()).isEqualTo("GB303648");
+
+        assertThat(basketMinusCellFile.getCellById("GB303648")).isNull();
     }
 
     /**
@@ -358,34 +332,29 @@ public class BasketTests {
         basketReference.loadBasket(basketRef);
         basketWithDiffsCellFile.loadBasket(baskeWithDiffsCell);
 
-        assertNotNull("BasketReference should not be null", basketReference);
-        assertNotNull("BasketWithDiffsCellFile should not be null",
-                basketWithDiffsCellFile);
+        assertThat(basketReference).isNotNull();
+        assertThat(basketWithDiffsCellFile).isNotNull();
         BasketComparison result = BasketHelperImpl.compare(basketReference,
                 basketWithDiffsCellFile);
 
-        assertNotNull("Result should not be null", result);
-        assertNotNull("No modified cell", result.getCellsWithDifferences());
-        assertNull("New celle found", result.getNewCells());
-        assertNull("deleted cell found", result.getDeletedCells());
+        assertThat(result).isNotNull();
+        assertThat(result.getCellsWithDifferences()).isNotNull();
+        assertThat(result.getNewCells()).isNull();
+        assertThat(result.getDeletedCells()).isNull();
 
-        assertEquals("More than one cell has been modified", 1,
-                result.getCellsWithDifferences().size());
+
+        assertThat(result.getCellsWithDifferences()).hasSize(1);
 
         BasketCell modifiedCell = result.getCellsWithDifferences().get(0);
 
-        assertEquals("this is not the expected cell", "GB104209",
-                modifiedCell.getCellId());
+        assertThat(modifiedCell.getCellId()).isEqualTo("GB104209");
 
         BasketCell referenceCell = basketReference
                 .getCellById(modifiedCell.getCellId());
 
-        assertEquals("Service cell is different",
-                referenceCell.getCellService(), modifiedCell.getCellService());
-        assertNotEquals("Edition cell is equal", referenceCell.getCellEdtn(),
-                modifiedCell.getCellEdtn());
-        assertEquals("Edition Cell is different", 2,
-                modifiedCell.getCellEdtn());
+        assertThat(referenceCell.getCellService()).isEqualTo(modifiedCell.getCellService());
+        assertThat(referenceCell.getCellEdtn()).isNotEqualTo(modifiedCell.getCellEdtn());
+        assertThat(modifiedCell.getCellEdtn()).isEqualTo(2);
 
     }
 

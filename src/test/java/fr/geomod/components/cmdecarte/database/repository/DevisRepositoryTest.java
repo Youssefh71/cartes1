@@ -18,17 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Devis;
-import fr.geomod.components.cmdecarte.database.repository.DevisRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Devis;
+import fr.geomod.components.cmdecarte.persistence.repository.DevisRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -52,16 +48,10 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class DevisRepositoryTest {
-
     @Autowired
     private DevisRepository devisRepository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final String NUMERO = "2022-Z-549-5";
     private static final Integer VALIDITY = 30;
     private static final String TITRE = "BRETAGNE";
@@ -69,16 +59,13 @@ public class DevisRepositoryTest {
 
     private Devis devis = Devis.builder().numero(NUMERO).validity(VALIDITY)
             .titre(TITRE).dateDevis(DATE_DEVIS).build();
-
     private Devis devisSave;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        em.persist(devis);
-
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
@@ -95,7 +82,6 @@ public class DevisRepositoryTest {
         assertThat(devisSave.getDateDevis()).isEqualTo(LocalDate.now());
         assertThat(devisSave.getTitre()).isEqualTo("BRETAGNE");
         assertThat(devisSave.getValidity()).isEqualTo(30);
-
     }
 
     /**
@@ -109,7 +95,6 @@ public class DevisRepositoryTest {
 
         assertThat(devisRepository.findById(devisSave.getId()))
                 .isEqualTo(Optional.of(devis));
-
     }
 
     /**
@@ -124,7 +109,5 @@ public class DevisRepositoryTest {
         devisRepository.deleteById(devisSave.getId());
 
         assertThat(devisRepository.findById(devisSave.getId())).isEmpty();
-
     }
-
 }

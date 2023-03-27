@@ -17,18 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import fr.geomod.components.cmdecarte.database.model.entity.Tva;
-import fr.geomod.components.cmdecarte.database.repository.TvaRepository;
-import jakarta.persistence.EntityManager;
+import fr.geomod.components.cmdecarte.persistence.entity.Tva;
+import fr.geomod.components.cmdecarte.persistence.repository.TvaRepository;
 import jakarta.transaction.Transactional;
 
 /**
@@ -52,34 +45,16 @@ import jakarta.transaction.Transactional;
  * @since 2023
  */
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class TvaRepositoryTest {
 
     @Autowired
     private TvaRepository repository;
-
-    @Autowired
-    private EntityManager em;
-
     private static final LocalDate DATE_TVA = LocalDate.now();
-
     private static final float MONTANT = (float) 5.5;
-
     private Tva tva = Tva.builder().dateTva(DATE_TVA).montant(MONTANT).build();
-
     private Tva tvaSave;
-
-    @Before
-    public void setUp() throws Exception {
-        em.persist(tva);
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
 
     /**
      * checks if the entity has been saved
@@ -101,10 +76,10 @@ public class TvaRepositoryTest {
     @Test
     @Transactional
     public void findById() {
+        tvaSave = repository.save(tva);
 
         assertThat(repository.findById(tva.getId()))
                 .isEqualTo(Optional.of(tva));
-
     }
 
     /**
@@ -113,10 +88,10 @@ public class TvaRepositoryTest {
     @Test
     @Transactional
     public void deleteById() {
+        tvaSave = repository.save(tva);
 
         repository.deleteById(tva.getId());
 
         assertThat(repository.findById(tva.getId())).isEmpty();
-
     }
 }
