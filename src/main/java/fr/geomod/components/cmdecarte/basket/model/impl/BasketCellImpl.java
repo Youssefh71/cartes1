@@ -115,9 +115,9 @@ public class BasketCellImpl implements BasketCell {
     }
 
     /**
-     * 
+     *
      * {@inheritDoc}
-     * 
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.BasketCell#getCellId()
      */
     public String getCellId() {
@@ -171,6 +171,7 @@ public class BasketCellImpl implements BasketCell {
     public int hashCode() {
         return Objects.hash(edtn, id, service);
     }
+
 
     /**
      * {@inheritDoc}
