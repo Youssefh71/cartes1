@@ -14,6 +14,7 @@
 package fr.geomod.components.cmdecarte.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -53,7 +54,7 @@ public class Devis {
     private String titre;
     
     @Column(name = "date_devis")
-    private LocalDate dateDevis;
+    private Date dateDevis;
     
     @ManyToOne
     @JoinColumn(name = "fk_id_client")
@@ -61,7 +62,7 @@ public class Devis {
 
 
     public Devis(Long id, String numero, Integer validity, String titre,
-            LocalDate dateDevis, Client client) {
+            Date dateDevis, Client client) {
         super();
         this.id = id;
         this.numero = numero;
@@ -137,14 +138,14 @@ public class Devis {
     /**
      * @return Returns the dateDevis.
      */
-    public LocalDate getDateDevis() {
+    public Date getDateDevis() {
         return dateDevis;
     }
 
     /**
      * @param dateDevis The dateDevis to set.
      */
-    public void setDateDevis(LocalDate dateDevis) {
+    public void setDateDevis(Date dateDevis) {
         this.dateDevis = dateDevis;
     }
 

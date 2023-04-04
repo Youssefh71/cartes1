@@ -16,6 +16,7 @@ package fr.geomod.components.cmdecarte.database.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -55,19 +56,11 @@ public class DevisRepositoryTest {
     private static final String NUMERO = "2022-Z-549-5";
     private static final Integer VALIDITY = 30;
     private static final String TITRE = "BRETAGNE";
-    private static final LocalDate DATE_DEVIS = LocalDate.now();
+    private static final Date DATE_DEVIS = new Date();
 
     private Devis devis = Devis.builder().numero(NUMERO).validity(VALIDITY)
             .titre(TITRE).dateDevis(DATE_DEVIS).build();
     private Devis devisSave;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-    }
-
-    @AfterEach
-    public void tearDown() throws Exception {
-    }
 
     /**
      * checks if the entity has been saved
@@ -79,7 +72,7 @@ public class DevisRepositoryTest {
         devisSave = devisRepository.save(devis);
 
         assertThat(devisSave.getNumero()).isEqualTo("2022-Z-549-5");
-        assertThat(devisSave.getDateDevis()).isEqualTo(LocalDate.now());
+        assertThat(devisSave.getDateDevis()).isEqualTo(DATE_DEVIS);
         assertThat(devisSave.getTitre()).isEqualTo("BRETAGNE");
         assertThat(devisSave.getValidity()).isEqualTo(30);
     }
