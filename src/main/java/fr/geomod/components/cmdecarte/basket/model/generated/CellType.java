@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par Eclipse Implementation of JAXB, v3.0.0 
-// Voir https://eclipse-ee4j.github.io/jaxb-ri 
+// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.3.0 
+// Voir <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2022.10.25 à 02:20:39 PM CEST 
+// Généré le : 2023.04.19 à 03:08:23 PM CEST 
 //
 
 
@@ -11,7 +11,6 @@ package fr.geomod.components.cmdecarte.basket.model.generated;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -42,7 +41,6 @@ import javax.xml.bind.annotation.XmlType;
     "cellEdtn",
     "serviceType"
 })
-@XmlRootElement(name="cell")
 public class CellType {
 
     @XmlElement(name = "cell_name", required = true)
@@ -123,15 +121,5 @@ public class CellType {
     public void setServiceType(String value) {
         this.serviceType = value;
     }
-
-	@Override
-	public String toString() {
-		return  
-	"\n"+ "cellName=" + cellName + "\n"
-	+ "cellEdtn=" + cellEdtn + "\n"
-	+"serviceType=" + serviceType;
-	}
-    
-    
 
 }

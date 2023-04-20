@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par Eclipse Implementation of JAXB, v3.0.0 
-// Voir https://eclipse-ee4j.github.io/jaxb-ri 
+// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.3.0 
+// Voir <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2022.10.25 à 02:20:39 PM CEST 
+// Généré le : 2023.04.19 à 03:08:23 PM CEST 
 //
 
 
@@ -10,12 +10,12 @@ package fr.geomod.components.cmdecarte.basket.model.generated;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
 
 /**
  * <p>Classe Java pour orderType complex type.
@@ -80,7 +80,7 @@ public class OrderType {
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
+     * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the cell property.
      * 
      * <p>
@@ -93,24 +93,14 @@ public class OrderType {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link CellType }
-     * @return List<CellType>
      * 
      * 
      */
     public List<CellType> getCell() {
         if (cell == null) {
-            cell = new ArrayList<CellType>();            
+            cell = new ArrayList<CellType>();
         }
         return this.cell;
     }
-
-	@Override
-	public String toString() {
-		return "OrderType [orderHeader=" + orderHeader + ", cell=" + cell + "]";
-	}
-
-	
-	
-	
 
 }

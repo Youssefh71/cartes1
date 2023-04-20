@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par Eclipse Implementation of JAXB, v3.0.0 
-// Voir https://eclipse-ee4j.github.io/jaxb-ri 
+// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.3.0 
+// Voir <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2022.10.25 à 02:20:39 PM CEST 
+// Généré le : 2023.04.19 à 03:08:23 PM CEST 
 //
 
 
@@ -13,10 +13,11 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
+
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * fr.geomod.components.cmdecarte.basket.model.generated in the fr.geomod.components.cmdecarte.basket.model.generated package. 
+ * generated in the fr.geomod.components.cmdecarte.basket.model.generated package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,14 +31,7 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    @Override
-	public String toString() {
-		return "ObjectFactory [createOrderType()=" + createOrderType() + ", createOrderHeaderType()="
-				+ createOrderHeaderType() + ", createCellType()=" + createCellType() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
-
-	private final static QName _Order_QNAME = new QName("", "order");
+    private final static QName _Order_QNAME = new QName("", "order");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: fr.geomod.components.cmdecarte.basket.model.generated
@@ -48,7 +42,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OrderType }
-     * @return OrderType
      * 
      */
     public OrderType createOrderType() {
@@ -57,7 +50,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OrderHeaderType }
-     * @return OrderHeaderType
      * 
      */
     public OrderHeaderType createOrderHeaderType() {
@@ -66,7 +58,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CellType }
-     * @return CellType
      * 
      */
     public CellType createCellType() {

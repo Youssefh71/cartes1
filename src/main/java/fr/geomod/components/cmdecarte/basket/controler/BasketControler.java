@@ -84,7 +84,6 @@ public class BasketControler {
         return result;
     }
 
-
     /**
      * Loads internal baskets
      */
