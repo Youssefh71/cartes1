@@ -18,6 +18,7 @@ jobs:
 
 
   sonar:
+    needs: build #ici on peut spécifier la dépendance entre jobs
     name: Sonar analysis
     runs-on: ubuntu-latest #notez que l'analyse est lancée dans un container ubuntu fourni par github
     steps:
