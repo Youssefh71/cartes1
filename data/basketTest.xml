@@ -36,12 +36,12 @@
     <cell>
         <cell_name>FR373840</cell_name>
         <cell_edtn/>
-        <service_type>0</service_type>
+        <service_type>3</service_type>
     </cell>
     <cell>
         <cell_name>FR271860</cell_name>
         <cell_edtn/>
-        <service_type>0</service_type>
+        <service_type>3</service_type>
     </cell>
     <cell>
         <cell_name>FR271861</cell_name>
@@ -61,7 +61,7 @@
     <cell>
         <cell_name>FR271864</cell_name>
         <cell_edtn/>
-        <service_type>0</service_type>
+        <service_type>3</service_type>
     </cell>
     <cell>
         <cell_name>FR271865</cell_name>

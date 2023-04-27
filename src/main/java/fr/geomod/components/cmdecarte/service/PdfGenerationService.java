@@ -6,9 +6,8 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
-import fr.geomod.components.cmdecarte.Pdf.PdfSouscription;
 import fr.geomod.components.cmdecarte.basket.model.Basket;
-import fr.geomod.components.cmdecarte.basket.model.BasketCell;
+import fr.geomod.components.cmdecarte.basket.model.utils.BasketUtils;
 import fr.geomod.components.cmdecarte.persistence.entity.Banque;
 import fr.geomod.components.cmdecarte.persistence.entity.Client;
 import fr.geomod.components.cmdecarte.persistence.entity.Contact;
@@ -22,44 +21,23 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 
 @Service
 public class PdfGenerationService {
 
 
-    public void createPdf(Client client, File dest, Devis devis, Contact contact, Banque banque, Basket basket, Optional<UserPermit> userPermit, Tva tva, Optional<Licensee> licensee) throws IOException {
+    public void generatedPdf(Client client, File dest, Devis devis, Contact contact, Banque banque, Basket basket, Optional<UserPermit> userPermit, Tva tva, Optional<Licensee> licensee) throws IOException {
 
         boolean langueFr = client.getLangue().equalsIgnoreCase("fr");
+        String templatePath = langueFr ? "./src/main/resources/pdf/model_Fr.pdf" : "./src/main/resources/pdf/model_EN.pdf";
         String dayLabel = (langueFr) ? "jours" : "days";
         String monthsLabel = (langueFr) ? "mois" : "months";
-
-
-        //Chargement du model pdf suivant le pays du client.
-        String templatePath = langueFr ? "./src/main/resources/pdf/model_Fr.pdf" : "./src/main/resources/pdf/model_EN.pdf";
-
-        //Map contenant la liste des cells du panier
-        Map<String, Integer> listCellName = new HashMap<>();
-        for (BasketCell cell : basket.getCells()) {
-            //Récuperer l'identifiant du pays (FR, GB ou autre)
-            String pays = cell.getCellId().substring(0, 2);
-
-            //Vérifier s'il y a déja de la donnée pour ce pays.
-            //S'il n'y en a pas on vient initialiser la hasmap à 1 ;
-            if (!listCellName.containsKey(pays)) {
-                listCellName.put(pays, 1);
-            } else {
-                //Si une valeur existe déjà rajouter +1 à la valeur existante
-                listCellName.put(pays, listCellName.get(pays) + 1);
-            }
-        }
-
-        //ServiceType du panier
-        int serviceType = basket.getCells().get(0).getCellService();
-
-        //dureeSouscription = correspondance entre leservice_type du panier et la durée de souscription
-        int dureeSouscription = PdfSouscription.SERVICE_MAP.get(serviceType);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -93,39 +71,38 @@ public class PdfGenerationService {
         //TODO i18n
         document.add(new Paragraph("ENC " + licensee.get().getName() + " " + "du 01/11/2022 au 31/10/2023").setFixedPosition(30, 553, 300).setFontSize(9).setBold());
 
-
         //Add customer adress
         // Add customer adresse french
-        Paragraph customerFrench = new Paragraph();
-        customerFrench.add(client.getName()).setBold().add("\n");
+        Paragraph adresseClient = new Paragraph();
+        adresseClient.add(client.getName()).setBold().add("\n");
         if (client.getDestinataire() != null) {
-            customerFrench.add(client.getDestinataire()).setFontSize(10).add("\n");
+            adresseClient.add(client.getDestinataire()).setFontSize(10).add("\n");
         }
-        customerFrench.add(client.getAdresse()).setFontSize(10).add("\n");
+        adresseClient.add(client.getAdresse()).setFontSize(10).add("\n");
         if (client.getAdresse2() != null) {
-            customerFrench.add(client.getAdresse2()).setFontSize(10).add("\n");
+            adresseClient.add(client.getAdresse2()).setFontSize(10).add("\n");
         }
         if (client.getAdresse3() != null) {
-            customerFrench.add(client.getAdresse3()).setFontSize(10).add("\n");
+            adresseClient.add(client.getAdresse3()).setFontSize(10).add("\n");
         }
         if (client.getBoite_postal() != null) {
-            customerFrench.add(client.getBoite_postal()).setFontSize(10).add("\n");
+            adresseClient.add(client.getBoite_postal()).setFontSize(10).add("\n");
         }
         if (client.getCs() != null) {
-            customerFrench.add(client.getCs()).setFontSize(10).add("\n");
+            adresseClient.add(client.getCs()).setFontSize(10).add("\n");
         }
-        customerFrench.add(client.getZipCode()).setFontSize(10);
-        customerFrench.add(" ");
-        customerFrench.add(client.getVille()).setFontSize(10);
-        customerFrench.add(" ");
+        adresseClient.add(client.getZipCode()).setFontSize(10);
+        adresseClient.add(" ");
+        adresseClient.add(client.getVille()).setFontSize(10);
+        adresseClient.add(" ");
         if (client.getCedex() != null) {
-            customerFrench.add(client.getCedex()).setFontSize(10).add("\n");
+            adresseClient.add(client.getCedex()).setFontSize(10).add("\n");
         }
         if (langueFr) {
-            customerFrench.add(client.getPays()).setFontSize(10).add("\n");
+            adresseClient.add(client.getPays()).setFontSize(10).add("\n");
         }
-        customerFrench.setRelativePosition(300, 100, 200, 0);
-        document.add(customerFrench);
+        adresseClient.setRelativePosition(300, 100, 200, 0);
+        document.add(adresseClient);
 
         //Add order detail
         //TODO remplacer par le prix venant de l'api primar
@@ -170,33 +147,47 @@ public class PdfGenerationService {
         document.add(new Paragraph(f.format(montantTtc) + " €").setFontSize(9).setFixedPosition(510, 163, 50).setTextAlignment(TextAlignment.RIGHT).
                 setBold());
 
-        //Add ENC
-        // Add of the number of cards per country
 
-        String totalEncByPays = "";
-        for (String pays : listCellName.keySet()) {
-            totalEncByPays += (totalEncByPays.length() > 0 ? " " : "") + listCellName.get(pays) + " " + pays;
+        //récupère la liste des durées de souscription
+        Set<Integer> listSouscription = BasketUtils.SERVICE_MAP.keySet();
+        Paragraph encFr = new Paragraph();
+        //number of cards per country and per subscription period
+        Map<Integer, Map<String, Integer>> extractedCellsByService = new HashMap<>();
+        //total number of cards per subscription period
+        Map<Integer, Map<String, Integer>> encsByService = new HashMap<>();
+        //boucle sur listeSouscription (liste des durées de souscription)
+        for (int service : listSouscription) {
+            //récupère le nombre de cartes par pays suivant sa durée de souscription
+            extractedCellsByService.put(service, BasketUtils.getNbCellsPerSubscription(basket, service, BasketUtils.ExtractionType.BY_COUNTRY));
+            //récupère le nombre total de cartes  suivant sa durée de souscription
+            encsByService.put(service, BasketUtils.getNbCellsPerSubscription(basket, service, BasketUtils.ExtractionType.TOTAL));
+            //crée une chaîne de caractères représentant le nombre de cartes par pays
+            String totalEncByPays = "";
+            for (String pays : extractedCellsByService.get(service).keySet()) {
+                totalEncByPays += (totalEncByPays.length() > 0 ? " " : "") + extractedCellsByService.get(service).get(pays) + " " + pays;
+            }
+            //vérifie pour chaque durée de souscirption s'il a des cartes par pays
+            if (!extractedCellsByService.get(service).isEmpty()) {
+                encFr.add(encsByService.get(service).size() + " " + "Encs" + " ");
+                encFr.add("(" + totalEncByPays + ")");
+                encFr.add("\n");
+                encFr.add("pour une souscription de " + BasketUtils.SERVICE_0 + " " + monthsLabel);
+                encFr.setRelativePosition(50, 230, 200, 0);
+                encFr.setFontSize(9);
+                encFr.setBold();
+                encFr.add("\n");
+                encFr.add("\n");
+            }
         }
-
-        Paragraph encFr = new Paragraph()
-                .add(basket.getCells().size() + " " + "Encs" + " ")
-                .add("(" + totalEncByPays + ")")
-                .add("\n")
-                .add("pour une souscription de " + dureeSouscription + " " + monthsLabel)
-                .setRelativePosition(50, 230, 200, 0)
-                .setFontSize(9)
-                .setBold();
-        document.add(encFr);
 
         //Add UserPermit
         //Todo voir la compsoition du name de l'user permit (florian)
-        Paragraph permit = new Paragraph()
-                .add("USER PERMIT :")
-                .add("\n")
-                .add(userPermit.get().getNumero())
-                .setRelativePosition(50, 250, 200, 0)
-                .setFontSize(9);
-        document.add(permit);
+        encFr.add("USER PERMIT :");
+        encFr.add("\n");
+        encFr.add(userPermit.get().getNumero());
+        encFr.setFontSize(9);
+
+        document.add(encFr);
         document.close();
     }
 }

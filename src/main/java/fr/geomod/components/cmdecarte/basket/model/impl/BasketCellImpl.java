@@ -100,7 +100,6 @@ public class BasketCellImpl implements BasketCell {
             edtn = Integer.parseInt(edition);
         } catch (NumberFormatException e) {
             // nothing to do
-
         }
 
         try {
@@ -108,7 +107,6 @@ public class BasketCellImpl implements BasketCell {
         } catch (NumberFormatException e) {
             // nothing to do
         }
-
         this.id = identifier;
         this.edtn = edtn;
         this.service = serviceInt;
