@@ -46,7 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Youssefh71_cartes1 -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=youssefh71
 
-    quality-gate:
+  quality-gate:
       needs: sonar
       name: Quality gate
       runs-on: ubuntu-latest
