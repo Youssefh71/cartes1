@@ -18,6 +18,7 @@ jobs:
 
 
   sonar:
+    needs: build #ici on peut spécifier la dépendance entre jobs
     name: Sonar analysis
     runs-on: ubuntu-latest #notez que l'analyse est lancée dans un container ubuntu fourni par github
     steps:
@@ -44,4 +45,29 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Youssefh71_cartes1 -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=youssefh71
+
+    quality-gate:
+      needs: sonar
+      name: Quality gate
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            # Disabling shallow clone is recommended for improving relevancy of reporting
+            fetch-depth: 0
+        - name: SonarQube Scan
+          uses: sonarsource/sonarqube-scan-action@master
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: SonarQube Quality Gate check
+          uses: sonarsource/sonarqube-quality-gate-action@master
+          # Force to fail step after specific time
+          timeout-minutes: 2
+          with:
+            scanMetadataReportFile: target/sonar/report-task.txt
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
