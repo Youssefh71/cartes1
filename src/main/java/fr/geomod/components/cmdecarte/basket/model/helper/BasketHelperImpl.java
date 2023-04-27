@@ -87,12 +87,9 @@ public class BasketHelperImpl {
 
         // itérer sur les cellules du basket2,
         for (BasketCell cellBasket2 : basket2.getCells()) {
-
-            // Pour chaque cellule du basket2 je vérifie son existence dans le
-            // basket 1
+            // Pour chaque cellule du basket2 je vérifie son existence dans le basket 1
             BasketCell cellBasket1 = basket1
                     .getCellById(cellBasket2.getCellId());
-
             // Si elle n'existe pas alors ajout à la liste des new
             if (cellBasket1 == null) {
                 if (result == null) {

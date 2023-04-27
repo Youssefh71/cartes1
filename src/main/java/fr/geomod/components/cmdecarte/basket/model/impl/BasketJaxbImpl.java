@@ -1,20 +1,19 @@
 package fr.geomod.components.cmdecarte.basket.model.impl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import fr.geomod.components.cmdecarte.basket.model.Basket;
+import fr.geomod.components.cmdecarte.basket.model.BasketCell;
+import fr.geomod.components.cmdecarte.basket.model.generated.CellType;
+import fr.geomod.components.cmdecarte.basket.model.generated.OrderType;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import fr.geomod.components.cmdecarte.basket.model.Basket;
-import fr.geomod.components.cmdecarte.basket.model.BasketCell;
-import fr.geomod.components.cmdecarte.basket.model.generated.CellType;
-import fr.geomod.components.cmdecarte.basket.model.generated.OrderType;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,7 +31,7 @@ import fr.geomod.components.cmdecarte.basket.model.generated.OrderType;
  * <p>
  * <B>Description </B>: An implementation of {@link Basket} using jaxb
  * </p>
- * 
+ *
  * @author GEOMOD
  * @since 2022
  */
@@ -52,9 +51,8 @@ public class BasketJaxbImpl implements Basket {
 
     /**
      * Load a basket from a xml file.
-     * 
-     * @param basketFile
-     *            a basket xml file.
+     *
+     * @param basketFile a basket xml file.
      */
     public void loadBasket(File basketFile) {
 
@@ -89,7 +87,7 @@ public class BasketJaxbImpl implements Basket {
             }
 
             //System.out.println(baskeCellList);
-            
+
         } catch (JAXBException e) {
             // nothing to do
         }
@@ -98,9 +96,8 @@ public class BasketJaxbImpl implements Basket {
 
     /**
      * Save a basket to a xml file.
-     * 
-     * @param basketFile
-     *            a basket xml file for this basket to be saved to.
+     *
+     * @param basketFile a basket xml file for this basket to be saved to.
      */
     public void saveBasket(File basketFile) {
         // TODO Youssef : marshaller le basket vers basketFile
@@ -109,42 +106,31 @@ public class BasketJaxbImpl implements Basket {
         List<CellType> ordercells = orderType.getCell();
 
         for (BasketCell basketCell : this.getCells()) {
-
             CellType cellType = new CellType();
             cellType.setCellEdtn("" + basketCell.getCellEdtn());
             cellType.setCellName(basketCell.getCellId());
             cellType.setServiceType("" + basketCell.getCellService());
-
             ordercells.add(cellType);
-            
-
         }
-
         try {
             JAXBContext jc = JAXBContext.newInstance(OrderType.class);
             Marshaller jaxbMarshaller = jc.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             jaxbMarshaller.marshal(orderType, basketFile);
-
         } catch (Exception e) {
             System.out.println("" + e.getMessage());
         }
-
     }
 
     /**
      * Get a string representation for this basket {@inheritDoc}
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("Basket : " + System.lineSeparator());
-        // TODO Youssef : itérer sur les cellules pour les ajouter à la string
-        // représentant le panier
-
         for (Map.Entry<String, BasketCell> cells : this.cells.entrySet()) {
             result.append("Basket id : " + cells.getKey());
             result.append("Basket objet : " + cells.getValue());
@@ -154,7 +140,7 @@ public class BasketJaxbImpl implements Basket {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.Basket#getCells()
      */
     public List<BasketCell> getCells() {
@@ -165,13 +151,12 @@ public class BasketJaxbImpl implements Basket {
     }
 
     /**
-     * 
      * {@inheritDoc}
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.Basket#getCellById(java.lang.String)
      */
     @Override
     public BasketCell getCellById(String cellId) {
-        // TODO Youssef à vérifier
         if (null != this.cells) {
             return this.cells.get(cellId);
         }

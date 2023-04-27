@@ -13,11 +13,11 @@
  */
 package fr.geomod.components.cmdecarte.basket.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.geomod.components.cmdecarte.basket.model.BasketCell;
 import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p><B>Title </B>: BasketComparisonImpl.</p>
@@ -25,6 +25,7 @@ import fr.geomod.components.cmdecarte.basket.model.BasketComparison;
  * <p><B>Company </B>: GEOMOD</p>
  * <p><B>Filename </B>: BasketComparisonImpl.java</p>
  * <p><B>Description </B>: Default implementation of {@link BasketComparison} </p>
+ *
  * @author GEOMOD
  * @since 2022
  */
@@ -34,20 +35,21 @@ public class BasketComparisonImpl implements BasketComparison {
      * List of new Cells
      */
     private List<BasketCell> newCells;
-    
+
     /**
      * List of deleted Cells
      */
     private List<BasketCell> deletedCells;
-    
+
     /**
      * List of cells with differences
      */
     private List<BasketCell> cellsWithDifferences;
-    
+
 
     /**
      * {@inheritDoc}
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getNewCells()
      */
     public List<BasketCell> getNewCells() {
@@ -56,6 +58,7 @@ public class BasketComparisonImpl implements BasketComparison {
 
     /**
      * {@inheritDoc}
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getDeletedCells()
      */
     public List<BasketCell> getDeletedCells() {
@@ -64,6 +67,7 @@ public class BasketComparisonImpl implements BasketComparison {
 
     /**
      * {@inheritDoc}
+     *
      * @see fr.geomod.components.cmdecarte.basket.model.BasketComparison#getCellsWithDifferences()
      */
     public List<BasketCell> getCellsWithDifferences() {
@@ -72,47 +76,44 @@ public class BasketComparisonImpl implements BasketComparison {
 
     /**
      * Add deleted cell to list
+     *
      * @param cell cell to add
      */
     public void addDeletedCells(BasketCell cell) {
         // Créer une list vide
-        if(this.deletedCells == null) {
+        if (this.deletedCells == null) {
             this.deletedCells = new ArrayList<>();
         }
-        
         //Ajouter la cellule à ma nouvelle liste
         this.deletedCells.add(cell);
-       
     }
 
     /**
      * Add differences cell to list
+     *
      * @param cell cell to add
      */
     public void addCellsWithDifferences(BasketCell cell) {
-     // Créer une list vide
-        if(this.cellsWithDifferences == null) {
+        // Créer une list vide
+        if (this.cellsWithDifferences == null) {
             this.cellsWithDifferences = new ArrayList<>();
         }
-        
         //Ajouter la cellule à ma nouvelle liste
         this.cellsWithDifferences.add(cell);
-        
     }
 
     /**
      * Add new cell to list
+     *
      * @param cell cell to add
      */
     public void addNewCells(BasketCell cell) {
-     // Créer une list vide
-        if(this.newCells == null) {
+        // Créer une list vide
+        if (this.newCells == null) {
             this.newCells = new ArrayList<>();
         }
-        
         //Ajouter la cellule à ma nouvelle liste
         this.newCells.add(cell);
-       
     }
 }
 
